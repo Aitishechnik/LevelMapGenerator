@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class TileRiver : Tile
 {
-    
+    public TileRiver()
+    {
+        tileType = TileType.River;
+    }
 }

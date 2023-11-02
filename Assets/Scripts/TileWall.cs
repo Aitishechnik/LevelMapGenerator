@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class TileWall : Tile
 {
-    
+    public TileWall()
+    {
+        tileType = TileType.Wall;
+    }
 }

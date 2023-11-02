@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class TileGround : Tile
 {
-    
+    public TileGround()
+    {
+        tileType = TileType.Ground;
+    }
 }

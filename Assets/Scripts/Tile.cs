@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class Tile : MonoBehaviour
 {
+    protected enum TileType { Ground, River, Wall }
+
+    protected TileType tileType;
     public Tile UpperTile { get; private set; }
     public Tile LeftTile { get; private set; }
     public Tile LowerTile { get; private set; }
@@ -18,5 +21,10 @@ public abstract class Tile : MonoBehaviour
             case 2: LowerTile = neighbour; break;
             case 3: RightTile = neighbour; break;
         }
+    }
+
+    protected void OnMouseDown()
+    {
+        Debug.Log($"{tileType} : {transform.position}");
     }
 }
