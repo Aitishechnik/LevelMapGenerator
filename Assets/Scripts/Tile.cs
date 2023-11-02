@@ -1,16 +1,19 @@
+using LevelMapGenerator;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Tile : MonoBehaviour
+public class Tile : MonoBehaviour
 {
-    protected enum TileType { Ground, River, Wall }
-
-    protected TileType tileType;
     public Tile UpperTile { get; private set; }
     public Tile LeftTile { get; private set; }
     public Tile LowerTile { get; private set; }
     public Tile RightTile { get; private set; }
+
+    [SerializeField]
+    private MeshRenderer _meshRenderer;
+
+    private TileData _tileData;
 
     protected void SetNeighbourTile(Tile neighbour, int side)
     {
@@ -23,8 +26,14 @@ public abstract class Tile : MonoBehaviour
         }
     }
 
+    public void SetData(TileData tileData)
+    {
+        transform.localScale = tileData.Size;
+        _meshRenderer.material = tileData.Material;
+        _tileData = tileData;
+    }
     protected void OnMouseDown()
     {
-        Debug.Log($"{tileType} : {transform.position}");
+        Debug.Log($"{transform.position}");
     }
 }

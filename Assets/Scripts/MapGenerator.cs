@@ -6,16 +6,13 @@ using LevelMapGenerator;
 
 public class MapGenerator : MonoBehaviour
 {
+    private List<Tile> _tiles = new List<Tile>();
+
     [SerializeField]
     private float _distance = 1.0f;
     [SerializeField]
-    private float _tilesHeiht = 0f;
-    [SerializeField]
-    private TileGround _tileGroundPrefab;
-    [SerializeField]
-    private TileRiver _tileRiverPrefab;
-    [SerializeField]
-    private TileWall _tileWallPrefab;
+    private float _tilesHeight = 0f;
+
     [SerializeField]
     private int _height = 10;
     [SerializeField]
@@ -24,11 +21,12 @@ public class MapGenerator : MonoBehaviour
     private int _groundTilesAmount = 10;
 
     private MatrixMap _matrixMap;
-    void Start()
+    void Awake()
     {
         _matrixMap = new MatrixMap(_height, _width, _groundTilesAmount);
         GenerteTilesField();
     }
+
 
     private void GenerteTilesField()
     {
@@ -36,21 +34,10 @@ public class MapGenerator : MonoBehaviour
         {
             for(int j = 0; j < _width; j++)
             {
-                if (_matrixMap.Matrix[i,j] == _matrixMap.GROUND)
-                {
-                    Instantiate(_tileGroundPrefab, new Vector3(transform.position.x + (j * _distance), _tilesHeiht, transform.position.z + (i * _distance)), Quaternion.identity);
-                }
-                
-                if(_matrixMap.Matrix[i, j] == _matrixMap.RIVER)
-                {
-                    Instantiate(_tileRiverPrefab, new Vector3(transform.position.x + (j * _distance), _tilesHeiht, transform.position.z + (i * _distance)), Quaternion.identity);
-                }
-
-                if (_matrixMap.Matrix[i, j] == _matrixMap.WALL)
-                {
-                    Instantiate(_tileWallPrefab, new Vector3(transform.position.x + (j * _distance), _tilesHeiht, transform.position.z + (i * _distance)), Quaternion.identity);
-                }
+                var pos = new Vector3(transform.position.x + (j * _distance), _tilesHeight, transform.position.z + (i * _distance));
+                _tiles.Add(TilesFactory.Instance.Create(_matrixMap.Matrix[i, j], pos));
             }
         }
+        Debug.Log(_tiles.Count + " tiles in total");
     }
 }

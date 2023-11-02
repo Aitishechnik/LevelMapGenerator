@@ -21,7 +21,7 @@ namespace LevelMapGenerator
         {
             for (int i = 0; i < Matrix.GetLength(0); i++)
             {
-                for (int j = 0; j <= Matrix.GetLength(1); j++)
+                for (int j = 0; j < Matrix.GetLength(1); j++)
                 {
                     if (Matrix[i, j] == EMPTY)
                         return true;
@@ -143,13 +143,16 @@ namespace LevelMapGenerator
                 }
             }
         }
-
-        private bool CheckIfWallIsAvailible(int y, int x, int exPosition)
+        private const int TO_TOP = 2;
+        private const int TO_BOTTOM = 0;
+        private const int TO_LEFT = 3;
+        private const int TO_RIGHT = 1;
+        private bool CheckIfWallIsAvailible(int y, int x, int wallSpawnDirection)
         {
-            if (y - 1 >= 0 && (Matrix[y - 1, x] == GROUND || exPosition == 2) &&
-                y + 1 < Matrix.GetLength(0) && (Matrix[y + 1, x] == GROUND || exPosition == 0) &&
-                x - 1 >= 0 && (Matrix[y, x - 1] == GROUND || exPosition == 3) &&
-                x + 1 < Matrix.GetLength(1) && (Matrix[y, x + 1] == GROUND || exPosition == 1))
+            if (y - 1 >= 0 && (Matrix[y - 1, x] == GROUND || wallSpawnDirection == TO_TOP) &&
+                y + 1 < Matrix.GetLength(0) && (Matrix[y + 1, x] == GROUND || wallSpawnDirection == TO_BOTTOM) &&
+                x - 1 >= 0 && (Matrix[y, x - 1] == GROUND || wallSpawnDirection == TO_LEFT) &&
+                x + 1 < Matrix.GetLength(1) && (Matrix[y, x + 1] == GROUND || wallSpawnDirection == TO_RIGHT))
             {
                 if (y - 1 > 0 && x - 1 > 0 && Matrix[y - 1, x - 1] == GROUND &&
                     y + 1 < Matrix.GetLength(0) && x - 1 > 0 && Matrix[y + 1, x - 1] == GROUND &&

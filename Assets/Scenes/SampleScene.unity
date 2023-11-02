@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &373042475
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 373042477}
+  - component: {fileID: 373042476}
+  m_Layer: 0
+  m_Name: Factory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &373042476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373042475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2a786689e234b4798914aadb0747e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabTile: {fileID: 1381278801563594859, guid: 31e193637ef0ba04b8fc2c5535e9c061, type: 3}
+  _tilesConfig: {fileID: 11400000, guid: d8aefb20bc4fdbf40af94e50baf7feb7, type: 2}
+--- !u!4 &373042477
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373042475}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.4199734, y: 26.024853, z: 237.20001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,13 +348,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 200, y: 40, z: 200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1042136029
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,10 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distance: 1
-  _tilesHeiht: 0
-  _tileGroundPrefab: {fileID: 3415904563501927421, guid: e0297e4446534614981dadfbcc20f543, type: 3}
-  _tileRiverPrefab: {fileID: -181044938718797822, guid: a2163d9b616ec98459ffd1b5e617b9a3, type: 3}
-  _tileWallPrefab: {fileID: 8564152643502360751, guid: a948200875ba4cf4581043a842fe21ca, type: 3}
+  _tilesHeight: 0
   _height: 400
   _width: 400
   _groundTilesAmount: 100000
@@ -475,3 +518,4 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 1042136033}
   - {fileID: 1720046094}
+  - {fileID: 373042477}
