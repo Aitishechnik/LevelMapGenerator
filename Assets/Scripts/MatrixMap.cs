@@ -1,0 +1,250 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LevelMapGenerator
+{
+    public class MatrixMap
+    {
+        private static Random random = new Random();
+        public readonly char GROUND = 'G';
+        public readonly char WALL = 'W';
+        public readonly char RIVER = 'R';
+        public readonly char EMPTY = '_';
+        private int _groundPotential;
+        private int _exStepDirection = -1;
+        public char[,] Matrix { get; private set; }
+
+        private bool CheckIfEmptiesLeft()
+        {
+            for (int i = 0; i < Matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j <= Matrix.GetLength(1); j++)
+                {
+                    if (Matrix[i, j] == EMPTY)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void FillWithGroundOnly()
+        {
+            for (int i = 0; i < Matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < Matrix.GetLength(1); j++)
+                {
+                    Matrix[i, j] = GROUND;
+                }
+            }
+        }
+        public MatrixMap(int hight, int width, int groundAmount)
+        {
+            Matrix = new char[hight, width];
+            // Filling Matrix with EMPTY cahrs.
+            for (int i = 0; i < hight; i++)
+            {
+                for (int j = 0; j < width; j++)
+                    Matrix[i, j] = EMPTY;
+            }
+
+            // Checking argument for tiles amount is not being bigger than level's area or less than 0.
+            if (groundAmount >= hight * width)
+            {
+                groundAmount = hight * width;
+                FillWithGroundOnly();
+                groundAmount = 0;
+            }
+            else if (groundAmount < 0)
+                groundAmount = 0;
+            else
+                _groundPotential = groundAmount;
+
+            GenerateGroundTiles();
+            if (CheckIfEmptiesLeft())
+            {
+                GenerateRiverTiles();
+            }
+            GenerateWallTiles(groundAmount);
+        }
+
+        private void GenerateGroundTiles()
+        {
+            int exDirection = -1;
+            int direction = exDirection;
+            int Y = random.Next(0, Matrix.GetLength(0));
+            int X = random.Next(0, Matrix.GetLength(1));
+            Matrix[Y, X] = GROUND;
+            _groundPotential -= 1;
+
+            while (_groundPotential > 0)
+            {
+                while (_exStepDirection == direction)
+                {
+                    direction = random.Next(0, 4);
+                }
+                _exStepDirection = direction;
+
+
+                if (direction == 0 && Y - 1 > 0)
+                {
+                    if (Matrix[Y - 1, X] == EMPTY)
+                    {
+                        Matrix[Y - 1, X] = GROUND;
+                        _groundPotential--;
+                    }
+
+                    Y -= 1;
+                }
+                if (direction == 1 && X - 1 > 0)
+                {
+                    if (Matrix[Y, X - 1] == EMPTY)
+                    {
+                        Matrix[Y, X - 1] = GROUND;
+                        _groundPotential--;
+                    }
+
+                    X -= 1;
+                }
+                if (direction == 2 && Y + 1 < Matrix.GetLength(0))
+                {
+                    if (Matrix[Y + 1, X] == EMPTY)
+                    {
+                        Matrix[Y + 1, X] = GROUND;
+                        _groundPotential--;
+                    }
+
+                    Y += 1;
+                }
+                if (direction == 3 && X + 1 < Matrix.GetLength(1))
+                {
+                    if (Matrix[Y, X + 1] == EMPTY)
+                    {
+                        Matrix[Y, X + 1] = GROUND;
+                        _groundPotential--;
+                    }
+
+                    X += 1;
+                }
+            }
+        }
+
+        private void GenerateRiverTiles()
+        {
+            for (int i = 0; i < Matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < Matrix.GetLength(1); j++)
+                {
+                    if (Matrix[i, j] == EMPTY)
+                        Matrix[i, j] = RIVER;
+                }
+            }
+        }
+
+        private bool CheckIfWallIsAvailible(int y, int x, int exPosition)
+        {
+            if (y - 1 >= 0 && (Matrix[y - 1, x] == GROUND || exPosition == 2) &&
+                y + 1 < Matrix.GetLength(0) && (Matrix[y + 1, x] == GROUND || exPosition == 0) &&
+                x - 1 >= 0 && (Matrix[y, x - 1] == GROUND || exPosition == 3) &&
+                x + 1 < Matrix.GetLength(1) && (Matrix[y, x + 1] == GROUND || exPosition == 1))
+            {
+                if (y - 1 > 0 && x - 1 > 0 && Matrix[y - 1, x - 1] == GROUND &&
+                    y + 1 < Matrix.GetLength(0) && x - 1 > 0 && Matrix[y + 1, x - 1] == GROUND &&
+                    y + 1 < Matrix.GetLength(0) && x + 1 < Matrix.GetLength(1) && Matrix[y + 1, x + 1] == GROUND &&
+                    y - 1 > 0 && x + 1 < Matrix.GetLength(1) && Matrix[y - 1, x + 1] == GROUND)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void GenerateWallTiles(int mazePotential)
+        {
+            int exDirection;
+            int direction;
+            int Y = random.Next(0, Matrix.GetLength(0));
+            int X = random.Next(0, Matrix.GetLength(1));
+            bool isAproved = false;
+
+            while (mazePotential > 0)
+            {
+                exDirection = -1;
+                direction = exDirection;
+                while (!isAproved)
+                {
+                    Y = random.Next(0, Matrix.GetLength(0));
+                    X = random.Next(0, Matrix.GetLength(1));
+                    if (CheckIfWallIsAvailible(Y, X, exDirection))
+                    {
+                        Matrix[Y, X] = WALL;
+                        isAproved = !isAproved;
+                    }
+                }
+                isAproved = !isAproved;
+                mazePotential--;
+
+                while (exDirection == direction)
+                {
+                    direction = random.Next(0, 4);
+                }
+                exDirection = direction;
+
+                while (true)
+                {
+                    if (direction == 0)
+                    {
+                        if (CheckIfWallIsAvailible(Y - 1, X, exDirection))
+                        {
+                            Matrix[Y - 1, X] = WALL;
+                            mazePotential--;
+                        }
+                        else
+                            break;
+
+                        Y -= 1;
+                    }
+                    if (direction == 1)
+                    {
+                        if (CheckIfWallIsAvailible(Y, X - 1, exDirection))
+                        {
+                            Matrix[Y, X - 1] = WALL;
+                            mazePotential--;
+                        }
+                        else
+                            break;
+
+                        X -= 1;
+                    }
+                    if (direction == 2)
+                    {
+                        if (CheckIfWallIsAvailible(Y + 1, X, exDirection))
+                        {
+                            Matrix[Y + 1, X] = WALL;
+                            mazePotential--;
+                        }
+                        else
+                            break;
+
+                        Y += 1;
+                    }
+                    if (direction == 3)
+                    {
+                        if (CheckIfWallIsAvailible(Y, X + 1, exDirection))
+                        {
+                            Matrix[Y, X + 1] = WALL;
+                            mazePotential--;
+                        }
+                        else
+                            break;
+
+                        Y -= 1;
+                    }
+                }
+            }
+        }
+    }
+}
