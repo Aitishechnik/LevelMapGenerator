@@ -492,9 +492,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _distance: 1
   _tilesHeight: 0
-  _height: 400
-  _width: 400
-  _groundTilesAmount: 100000
+  _height: 100
+  _width: 100
+  _groundTilesAmount: 9500
+  _wallTilesAmount: 2000
+  _wallMaxLength: 6
 --- !u!4 &1720046094
 Transform:
   m_ObjectHideFlags: 0

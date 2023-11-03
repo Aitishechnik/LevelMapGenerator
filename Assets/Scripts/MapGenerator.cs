@@ -19,11 +19,15 @@ public class MapGenerator : MonoBehaviour
     private int _width = 10;
     [SerializeField]
     private int _groundTilesAmount = 10;
+    [SerializeField]
+    private int _wallTilesAmount = 10;
+    [SerializeField]
+    private int _wallMaxLength = 10;
 
     private MatrixMap _matrixMap;
     void Awake()
     {
-        _matrixMap = new MatrixMap(_height, _width, _groundTilesAmount);
+        _matrixMap = new MatrixMap(_height, _width, _groundTilesAmount, _wallTilesAmount, _wallMaxLength);
         GenerteTilesField();
     }
 

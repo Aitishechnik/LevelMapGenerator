@@ -41,7 +41,7 @@ namespace LevelMapGenerator
                 }
             }
         }
-        public MatrixMap(int hight, int width, int groundAmount)
+        public MatrixMap(int hight, int width, int groundAmount, int wallsPotential, int wallMaxLength)
         {
             Matrix = new char[hight, width];
             // Filling Matrix with EMPTY cahrs.
@@ -68,7 +68,12 @@ namespace LevelMapGenerator
             {
                 GenerateRiverTiles();
             }
-            GenerateWallTiles(groundAmount);
+
+            if(wallMaxLength < 1)
+                wallMaxLength = 1;
+
+            GenerateWallTiles(wallsPotential, wallMaxLength);
+            
         }
 
         private void GenerateGroundTiles()
@@ -89,7 +94,7 @@ namespace LevelMapGenerator
                 _exStepDirection = direction;
 
 
-                if (direction == 0 && Y - 1 > 0)
+                if (direction == 0 && Y - 1 >= 0)
                 {
                     if (Matrix[Y - 1, X] == EMPTY)
                     {
@@ -99,7 +104,7 @@ namespace LevelMapGenerator
 
                     Y -= 1;
                 }
-                if (direction == 1 && X - 1 > 0)
+                if (direction == 1 && X - 1 >= 0)
                 {
                     if (Matrix[Y, X - 1] == EMPTY)
                     {
@@ -165,8 +170,9 @@ namespace LevelMapGenerator
             return false;
         }
 
-        private void GenerateWallTiles(int mazePotential)
+        private void GenerateWallTiles(int mazePotential, int wallMaxLength)
         {
+            int currentWallLength;
             int exDirection;
             int direction;
             int Y = random.Next(0, Matrix.GetLength(0));
@@ -175,8 +181,10 @@ namespace LevelMapGenerator
 
             while (mazePotential > 0)
             {
+                currentWallLength = wallMaxLength;
                 exDirection = -1;
                 direction = exDirection;
+
                 while (!isAproved)
                 {
                     Y = random.Next(0, Matrix.GetLength(0));
@@ -184,6 +192,7 @@ namespace LevelMapGenerator
                     if (CheckIfWallIsAvailible(Y, X, exDirection))
                     {
                         Matrix[Y, X] = WALL;
+                        currentWallLength--;
                         isAproved = !isAproved;
                     }
                 }
@@ -200,10 +209,11 @@ namespace LevelMapGenerator
                 {
                     if (direction == 0)
                     {
-                        if (CheckIfWallIsAvailible(Y - 1, X, exDirection))
+                        if (CheckIfWallIsAvailible(Y - 1, X, exDirection) && currentWallLength > 0)
                         {
                             Matrix[Y - 1, X] = WALL;
                             mazePotential--;
+                            currentWallLength --;
                         }
                         else
                             break;
@@ -212,10 +222,11 @@ namespace LevelMapGenerator
                     }
                     if (direction == 1)
                     {
-                        if (CheckIfWallIsAvailible(Y, X - 1, exDirection))
+                        if (CheckIfWallIsAvailible(Y, X - 1, exDirection) && currentWallLength > 0)
                         {
                             Matrix[Y, X - 1] = WALL;
                             mazePotential--;
+                            currentWallLength --;
                         }
                         else
                             break;
@@ -224,10 +235,11 @@ namespace LevelMapGenerator
                     }
                     if (direction == 2)
                     {
-                        if (CheckIfWallIsAvailible(Y + 1, X, exDirection))
+                        if (CheckIfWallIsAvailible(Y + 1, X, exDirection) && currentWallLength > 0)
                         {
                             Matrix[Y + 1, X] = WALL;
                             mazePotential--;
+                            currentWallLength--;
                         }
                         else
                             break;
@@ -236,10 +248,11 @@ namespace LevelMapGenerator
                     }
                     if (direction == 3)
                     {
-                        if (CheckIfWallIsAvailible(Y, X + 1, exDirection))
+                        if (CheckIfWallIsAvailible(Y, X + 1, exDirection) && currentWallLength > 0)
                         {
                             Matrix[Y, X + 1] = WALL;
                             mazePotential--;
+                            currentWallLength--;
                         }
                         else
                             break;
