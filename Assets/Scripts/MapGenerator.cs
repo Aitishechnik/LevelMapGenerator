@@ -18,16 +18,16 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     private int _width = 10;
     [SerializeField]
-    private int _groundTilesAmount = 10;
+    private int _groundTilesPotential = 10;
     [SerializeField]
-    private int _wallTilesAmount = 10;
+    private int _wallTilesPotential = 10;
     [SerializeField]
     private int _wallMaxLength = 10;
 
     private MatrixMap _matrixMap;
-    void Awake()
+    private void Awake()
     {
-        _matrixMap = new MatrixMap(_height, _width, _groundTilesAmount, _wallTilesAmount, _wallMaxLength);
+        _matrixMap = new MatrixMap(_height, _width, _groundTilesPotential, _wallTilesPotential, _wallMaxLength);
         GenerteTilesField();
     }
 
@@ -38,10 +38,32 @@ public class MapGenerator : MonoBehaviour
         {
             for(int j = 0; j < _width; j++)
             {
-                var pos = new Vector3(transform.position.x + (j * _distance), _tilesHeight, transform.position.z + (i * _distance));
+                var pos = new Vector3(transform.position.z + (i * _distance)/*transform.position.x + (j * _distance)*/, _tilesHeight, transform.position.x + (j * _distance)/*transform.position.z + (i * _distance)*/);
                 _tiles.Add(TilesFactory.Instance.Create(_matrixMap.Matrix[i, j], pos));
             }
         }
+
+        Neighbourhood(_tiles, _matrixMap.Matrix.GetLength(0), _matrixMap.Matrix.GetLength(1));
         Debug.Log(_tiles.Count + " tiles in total");
+    }
+
+    private void Neighbourhood(List<Tile> neighbours, int height, int width)
+    {
+        int iterator = 0;
+        for (int i = 0; i < height; i++)
+        {
+            iterator = i * width;
+            for (int j = 0; j < width; j++)
+            {
+                if (i * width > width - 1)
+                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j - width], 0);
+                if (j > 0)
+                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j - 1], 1);
+                if (i * width < neighbours.Count - width)
+                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j + width], 2);
+                if (j < width - 1)
+                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j + 1], 3);
+            }
+        }
     }
 }

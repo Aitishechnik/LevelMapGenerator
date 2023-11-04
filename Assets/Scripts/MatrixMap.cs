@@ -185,7 +185,7 @@ namespace LevelMapGenerator
                 exDirection = -1;
                 direction = exDirection;
 
-                while (!isAproved)
+                while (!isAproved && mazePotential > 0)
                 {
                     Y = random.Next(0, Matrix.GetLength(0));
                     X = random.Next(0, Matrix.GetLength(1));
@@ -195,9 +195,10 @@ namespace LevelMapGenerator
                         currentWallLength--;
                         isAproved = !isAproved;
                     }
+                    mazePotential--;
                 }
                 isAproved = !isAproved;
-                mazePotential--;
+                
 
                 while (exDirection == direction)
                 {

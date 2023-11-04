@@ -19,7 +19,7 @@ MonoBehaviour:
   - _size: {x: 0.5, y: 0.2, z: 0.5}
     _material: {fileID: 2100000, guid: 7877e428455268d4ba88e09176e72ae5, type: 2}
     _tileSymbol: 71
-  - _size: {x: 1, y: 5, z: 1}
+  - _size: {x: 1, y: 2, z: 1}
     _material: {fileID: 2100000, guid: 6576a150acea61b47808900f3485694a, type: 2}
     _tileSymbol: 87
   - _size: {x: 0.5, y: 0.2, z: 0.5}

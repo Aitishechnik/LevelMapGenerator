@@ -15,7 +15,7 @@ public class Tile : MonoBehaviour
 
     private TileData _tileData;
 
-    protected void SetNeighbourTile(Tile neighbour, int side)
+    public void SetNeighbourTile(Tile neighbour, int side)
     {
         switch (side)
         {
@@ -32,7 +32,7 @@ public class Tile : MonoBehaviour
         _meshRenderer.material = tileData.Material;
         _tileData = tileData;
     }
-    protected void OnMouseDown()
+    private void OnMouseDown()
     {
         Debug.Log($"{transform.position}");
     }
