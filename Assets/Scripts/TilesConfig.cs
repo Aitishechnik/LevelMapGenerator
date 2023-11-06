@@ -31,5 +31,10 @@ namespace LevelMapGenerator
         [SerializeField]
         private char _tileSymbol;
         public char TileSymbol { get => _tileSymbol; }
+
+        [SerializeField]
+        private bool _isWalkable;
+
+        public bool IsWalkable { get => _isWalkable; }
     }
 }

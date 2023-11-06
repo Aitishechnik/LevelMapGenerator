@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TilesFactory : MonoBehaviour
+public class TileFactory : MonoBehaviour
 {
-    public static TilesFactory Instance { get; private set; }
+    public static TileFactory Instance { get; private set; }
 
     [SerializeField]
     private Tile _prefabTile;

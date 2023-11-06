@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LevelMapGenerator
 {
+    public enum UnitType { Hero }
     public class MatrixMap
     {
         private static Random random = new Random();
-        public readonly char GROUND = 'G';
-        public readonly char WALL = 'W';
-        public readonly char RIVER = 'R';
-        public readonly char EMPTY = '_';
+        public const char GROUND = 'G';
+        public const char WALL = 'W';
+        public const char RIVER = 'R';
+        public const char EMPTY = '_';
         private int _groundPotential;
         private int _exStepDirection = -1;
         public char[,] Matrix { get; private set; }
@@ -148,10 +150,10 @@ namespace LevelMapGenerator
                 }
             }
         }
-        private const int TO_TOP = 2;
-        private const int TO_BOTTOM = 0;
-        private const int TO_LEFT = 3;
-        private const int TO_RIGHT = 1;
+        public const int TO_TOP = 2;
+        public const int TO_BOTTOM = 0;
+        public const int TO_LEFT = 3;
+        public const int TO_RIGHT = 1;
         private bool CheckIfWallIsAvailible(int y, int x, int wallSpawnDirection)
         {
             if (y - 1 >= 0 && (Matrix[y - 1, x] == GROUND || wallSpawnDirection == TO_TOP) &&
