@@ -39,6 +39,7 @@ public class Tile : MonoBehaviour
         IsWalkable = tileData.IsWalkable;
         _tileData = tileData;
     }
+
     private void OnMouseDown()
     {
         Debug.Log($"{_tileData.TileSymbol} : {transform.position} : {IsWalkable}");

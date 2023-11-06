@@ -25,14 +25,19 @@ public class UnitFactory : MonoBehaviour
 
         Instance = this;
 
-        Create(_mapGenerator.GetWalkable());
+        // Test: Spawn units of all types
+        Create(UnitType.Hero,_mapGenerator.GetWalkable());
+        Create(UnitType.Maniac,_mapGenerator.GetWalkable());
+        Create(UnitType.Civilian,_mapGenerator.GetWalkable());
+        Create(UnitType.Policeman,_mapGenerator.GetWalkable());
+        //-------------------------------
     }
 
-    public Unit Create(Tile tile)
+    public Unit Create(UnitType type, Tile tile)
     {                             
-        var unit = Instantiate(_prefabUnit);
-        
+        var unit = Instantiate(_prefabUnit);        
         unit.MoveToTile(tile, true);
+        unit.SetData(_unitDatasDict[type]);
         return unit;
     }
 }

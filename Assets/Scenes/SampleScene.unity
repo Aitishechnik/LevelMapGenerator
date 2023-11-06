@@ -419,9 +419,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _distance: 1
   _tilesHeight: 0
-  _height: 5
-  _width: 5
-  _groundTilesPotential: 5
+  _height: 10
+  _width: 10
+  _groundTilesPotential: 100
   _wallTilesPotential: 5
   _wallMaxLength: 2
 --- !u!4 &1720046094

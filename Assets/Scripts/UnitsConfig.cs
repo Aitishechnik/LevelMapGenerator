@@ -18,11 +18,17 @@ public class UnitData
 {
     [SerializeField]
     private UnitType _type;
-
     public UnitType Type { get => _type; }
 
     [SerializeField]
     private bool _isControlable;
-
     public bool IsControlable { get => _isControlable; }
+
+    [SerializeField]
+    private Mesh _mesh;
+    public Mesh Mesh { get => _mesh; }
+
+    [SerializeField]
+    private Material _material;
+    public Material Material { get => _material; }
 }
