@@ -28,8 +28,8 @@ public class UnitFactory : MonoBehaviour
         Create(_mapGenerator.GetWalkable());
     }
 
-    public Unit Create(Tile tile) // TODO: 1. Добавить параметры для настройки Unit. 2. Подумать о методе спавна юнита (в том числе controlable). 
-    {                             // 3. Как будет осуществляться передача инфы о тайле юниту (возможно евент)?
+    public Unit Create(Tile tile)
+    {                             
         var unit = Instantiate(_prefabUnit);
         
         unit.MoveToTile(tile, true);
