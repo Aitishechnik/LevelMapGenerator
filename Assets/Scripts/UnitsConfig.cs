@@ -17,8 +17,8 @@ public class UnitsConfig : ScriptableObject
 public class UnitData
 {
     [SerializeField]
-    private UnitType _type;
-    public UnitType Type { get => _type; }
+    private string _type;
+    public string Type { get => _type; }
 
     [SerializeField]
     private bool _isControlable;

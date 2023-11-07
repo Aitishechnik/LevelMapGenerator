@@ -15,7 +15,7 @@ public class UnitFactory : MonoBehaviour
     [SerializeField]
     private UnitsConfig _unitsConfig;
 
-    private Dictionary<UnitType, UnitData> _unitDatasDict = new Dictionary<UnitType, UnitData>();
+    private Dictionary<string, UnitData> _unitDatasDict = new Dictionary<string, UnitData>();
     private void Start()
     {
         foreach (var unitData in _unitsConfig.Units)
@@ -26,14 +26,14 @@ public class UnitFactory : MonoBehaviour
         Instance = this;
 
         // Test: Spawn units of all types
-        Create(UnitType.Hero,_mapGenerator.GetWalkable());
-        Create(UnitType.Maniac,_mapGenerator.GetWalkable());
-        Create(UnitType.Civilian,_mapGenerator.GetWalkable());
-        Create(UnitType.Policeman,_mapGenerator.GetWalkable());
+        foreach(var type in _unitDatasDict.Keys)
+        {
+            Create(type, _mapGenerator.GetWalkable());
+        }
         //-------------------------------
     }
 
-    public Unit Create(UnitType type, Tile tile)
+    public Unit Create(string type, Tile tile)
     {                             
         var unit = Instantiate(_prefabUnit);        
         unit.MoveToTile(tile, true);

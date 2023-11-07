@@ -200,4 +200,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unit: {fileID: 7198019413886224298}
-  _timeBetweenSteps: 0.3
+  _timeBetweenSteps: 1

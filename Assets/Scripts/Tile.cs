@@ -19,6 +19,11 @@ public class Tile : MonoBehaviour
 
     private TileData _tileData;
 
+    [SerializeField]
+    private bool _isOccupied = false;
+
+    public bool IsOccupied { get => _isOccupied; set { _isOccupied = value; } }
+
     public bool IsWalkable { get; private set; } = false;
 
     public void SetNeighbourTile(Tile neighbour, int side)
@@ -42,7 +47,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log($"{_tileData.TileSymbol} : {transform.position} : {IsWalkable}");
+        Debug.Log($"{_tileData.TileSymbol} : {transform.position} : {IsWalkable} {(_isOccupied ? "OCCUPIED" : "FREE")}");
     }
 
     public bool IsNeighbour(Tile tile)
