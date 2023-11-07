@@ -15,8 +15,11 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private MeshFilter _meshFilter;
 
+    public bool IsMoving { get; private set; }
+
     public IEnumerator MoveSmoothly(Tile targetTile, float moveSpeed)
     {
+        IsMoving = true;
         Vector3 startPosition = transform.position;
         Vector3 targetPosition = targetTile.transform.position;
 
@@ -31,8 +34,8 @@ public class Unit : MonoBehaviour
             yield return null;
         }
 
-        transform.position = targetPosition;
-        yield break;
+        AttachToTile(targetTile);
+        IsMoving = false;
     }
 
     public void AttachToTile(Tile tile) 
@@ -53,6 +56,16 @@ public class Unit : MonoBehaviour
 
     public void MoveToTile(Tile tile, bool isTeleport = false)
     {
+        if (IsMoving)
+        {
+            throw new Exception("Unit is moving");
+        }
+
+        if (tile.IsOccupied)
+        {
+            throw new Exception("Tile is occupied");
+        }
+
         if(isTeleport)
             AttachToTile(tile);
         else

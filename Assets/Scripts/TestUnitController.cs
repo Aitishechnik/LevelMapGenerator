@@ -49,7 +49,7 @@ public class TestUnitController : MonoBehaviour
             }            
         }
         //_unit.CurrentTile.IsOccupied = false;
-        tile.IsOccupied = true; //Правильно ли размещать это здесь? По ф-ционалу всё работает. Возможен глич при недостаточном кол-ве wakables
+        //tile.IsOccupied = true; //Правильно ли размещать это здесь? По ф-ционалу всё работает. Возможен глич при недостаточном кол-ве wakables
         return tile;
     }
 
@@ -60,6 +60,7 @@ public class TestUnitController : MonoBehaviour
 
     private void Update()
     {
+        if(!_unit.IsMoving)
         _unit.MoveToTile(RandomMove(_unit));
     }
 }
