@@ -3,10 +3,10 @@ using System.Collections;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-// TODO: 1. Подумать над реализацией плавных перемещений через корутину 
-
 public class Unit : MonoBehaviour 
-{   
+{
+    public const float TRANSITION_TIME = 0.5f;
+
     public Tile CurrentTile { get; private set; }
 
     [SerializeField]
@@ -15,13 +15,16 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private MeshFilter _meshFilter;
 
+    public UnitData ThisUnitData { get; private set; }
+
     public bool IsMoving { get; private set; }
 
     public IEnumerator MoveSmoothly(Tile targetTile, float moveSpeed)
     {
         IsMoving = true;
+        targetTile.AttachUnit(this);
         Vector3 startPosition = transform.position;
-        Vector3 targetPosition = targetTile.transform.position;
+        Vector3 targetPosition = targetTile.transform.position + new Vector3(0, ThisUnitData.OffsetY, 0);
 
         float elapsedTime = 0f;
 
@@ -41,17 +44,18 @@ public class Unit : MonoBehaviour
     public void AttachToTile(Tile tile) 
     {
         if (CurrentTile != null)
-            CurrentTile.IsOccupied = false;
+            CurrentTile.DetachUnit();
 
         CurrentTile = tile;
-        CurrentTile.IsOccupied = true;
+        CurrentTile.AttachUnit(this);
         transform.position = tile.transform.position + Vector3.up;
     }
 
     public void SetData(UnitData unitData)
     {
-        _meshFilter.mesh = unitData.Mesh;
-        _meshRenderer.material = unitData.Material;
+        ThisUnitData = unitData;
+        _meshFilter.mesh = ThisUnitData.Mesh;
+        _meshRenderer.material = ThisUnitData.Material;
     }
 
     public void MoveToTile(Tile tile, bool isTeleport = false)
@@ -66,14 +70,18 @@ public class Unit : MonoBehaviour
             throw new Exception("Tile is occupied");
         }
 
+        if(tile == null)
+        {
+            throw new Exception("Tile == null");
+        }
+
         if(isTeleport)
             AttachToTile(tile);
         else
         {
             if (CurrentTile.IsNeighbour(tile))
             {
-                //AttachToTile(tile);
-                StartCoroutine(MoveSmoothly(tile, 0.5f));
+                StartCoroutine(MoveSmoothly(tile, TRANSITION_TIME));
             }
             else
             {

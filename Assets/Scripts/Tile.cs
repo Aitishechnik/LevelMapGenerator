@@ -13,6 +13,8 @@ public class Tile : MonoBehaviour
     public Tile LeftTile { get; private set; }
     public Tile LowerTile { get; private set; }
     public Tile RightTile { get; private set; }
+
+    private Unit _attachedUnit;
     
     [SerializeField]
     private MeshRenderer _meshRenderer;
@@ -20,11 +22,19 @@ public class Tile : MonoBehaviour
     private TileData _tileData;
 
     [SerializeField]
-    private bool _isOccupied = false;
 
-    public bool IsOccupied { get => _isOccupied; set { _isOccupied = value; } }
+    public bool IsOccupied => _attachedUnit != null;
 
     public bool IsWalkable { get; private set; } = false;
+
+    public void AttachUnit(Unit unit)
+    {
+        _attachedUnit = unit;
+    }
+    public void DetachUnit()
+    {
+        _attachedUnit = null;
+    }
 
     public void SetNeighbourTile(Tile neighbour, int side)
     {
@@ -37,6 +47,25 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void GetFreeNeibours(List<Tile> availbleTiles)
+    {
+        availbleTiles.Clear();
+
+        if (GetProperTile(UpperTile))
+            availbleTiles.Add(UpperTile);
+        if (GetProperTile(LeftTile))
+            availbleTiles.Add(LeftTile);
+        if(GetProperTile(RightTile))
+            availbleTiles.Add(RightTile);
+        if(GetProperTile(LowerTile))
+            availbleTiles.Add(LowerTile);
+    }
+
+    private bool GetProperTile(Tile tile)
+    {
+        return tile != null && tile.IsWalkable && !tile.IsOccupied;
+    }
+
     public void SetData(TileData tileData)
     {
         transform.localScale = tileData.Size;
@@ -47,7 +76,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log($"{_tileData.TileSymbol} : {transform.position} : {IsWalkable} {(_isOccupied ? "OCCUPIED" : "FREE")}");
+        Debug.Log($"{_tileData.TileSymbol} : {transform.position} : {IsWalkable} {(IsOccupied ? "OCCUPIED" : "FREE")}");
     }
 
     public bool IsNeighbour(Tile tile)

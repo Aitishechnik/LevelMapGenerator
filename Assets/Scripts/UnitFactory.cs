@@ -38,6 +38,7 @@ public class UnitFactory : MonoBehaviour
         var unit = Instantiate(_prefabUnit);        
         unit.MoveToTile(tile, true);
         unit.SetData(_unitDatasDict[type]);
+        unit.AttachToTile(tile);
         return unit;
     }
 }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using LevelMapGenerator;
+using JetBrains.Annotations;
 
 public class MapGenerator : MonoBehaviour
 {
     private List<Tile> _tiles = new List<Tile>();
-
+    private List<Tile> _walkableTiles = new List<Tile>();
     [SerializeField]
     private float _distance = 1.0f;
     [SerializeField]
@@ -39,6 +40,8 @@ public class MapGenerator : MonoBehaviour
             {
                 var pos = new Vector3(transform.position.z + (i * _distance), _tilesHeight, transform.position.x + (j * _distance));
                 _tiles.Add(TileFactory.Instance.Create(_matrixMap.Matrix[i, j], pos));
+                if (_tiles[_tiles.Count - 1].IsWalkable)
+                    _walkableTiles.Add(_tiles[_tiles.Count - 1]);
             }
         }
 
@@ -47,15 +50,37 @@ public class MapGenerator : MonoBehaviour
     }
 
     public Tile GetWalkable()
+    {   
+        return _walkableTiles[Random.Range(0, _walkableTiles.Count)];
+    }
+
+    public List<Tile> GetWalkables(int count)
     {
-        Tile tile;
-        do
+        if(count > _walkableTiles.Count)
+            count = _walkableTiles.Count;
+
+        bool addTile;
+        var list = new List<Tile>();
+
+        for(int i = 0;i < count; i++)
         {
-            tile = _tiles[Random.Range(0, _tiles.Count)];
+            var tile = GetWalkable();
+            addTile = true;
+
+            for(int j = 0; j < list.Count; j++)
+            {
+                if(tile == list[j])
+                {
+                    addTile = false; break;
+                }
+            }
+
+            if(addTile)
+            {
+                list.Add(tile);
+            }
         }
-        while (!tile.IsWalkable);
-        
-        return tile;
+        return list;
     }
 
     private void Neighbourhood(List<Tile> neighbours, int height, int width)

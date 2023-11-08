@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace LevelMapGenerator
 {
-    public enum UnitType { Hero, Civilian, Policeman, Maniac }
     public class MatrixMap
     {
         private static Random random = new Random();
