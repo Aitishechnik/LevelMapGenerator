@@ -59,25 +59,19 @@ public class MapGenerator : MonoBehaviour
         if(count > _walkableTiles.Count)
             count = _walkableTiles.Count;
 
-        bool addTile;
         var list = new List<Tile>();
 
         for(int i = 0;i < count; i++)
         {
-            var tile = GetWalkable();
-            addTile = true;
-
-            for(int j = 0; j < list.Count; j++)
+            var randomIndex = Random.Range(0, _walkableTiles.Count);
+            for(int j = 0; j < _walkableTiles.Count; j++)
             {
-                if(tile == list[j])
-                {
-                    addTile = false; break;
-                }
-            }
+                var index = (randomIndex + j) % _walkableTiles.Count;
+                if (list.Contains(_walkableTiles[index]))
+                    continue;
 
-            if(addTile)
-            {
-                list.Add(tile);
+                list.Add(_walkableTiles[index]);
+                break;
             }
         }
         return list;

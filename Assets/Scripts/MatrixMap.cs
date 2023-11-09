@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 namespace LevelMapGenerator
 {
@@ -155,15 +157,19 @@ namespace LevelMapGenerator
         public const int TO_RIGHT = 1;
         private bool CheckIfWallIsAvailible(int y, int x, int wallSpawnDirection)
         {
+            if(y - 1 < 0 || y + 1 > Matrix.GetLength(0) || x - 1 < 0 || x + 1 > Matrix.GetLength(1))
+                return false;
+            
+
             if (y - 1 >= 0 && (Matrix[y - 1, x] == GROUND || wallSpawnDirection == TO_TOP) &&
                 y + 1 < Matrix.GetLength(0) && (Matrix[y + 1, x] == GROUND || wallSpawnDirection == TO_BOTTOM) &&
                 x - 1 >= 0 && (Matrix[y, x - 1] == GROUND || wallSpawnDirection == TO_LEFT) &&
                 x + 1 < Matrix.GetLength(1) && (Matrix[y, x + 1] == GROUND || wallSpawnDirection == TO_RIGHT))
             {
-                if (y - 1 > 0 && x - 1 > 0 && Matrix[y - 1, x - 1] == GROUND &&
-                    y + 1 < Matrix.GetLength(0) && x - 1 > 0 && Matrix[y + 1, x - 1] == GROUND &&
+                if (y - 1 >= 0 && x - 1 >= 0 && Matrix[y - 1, x - 1] == GROUND &&
+                    y + 1 < Matrix.GetLength(0) && x - 1 >= 0 && Matrix[y + 1, x - 1] == GROUND &&
                     y + 1 < Matrix.GetLength(0) && x + 1 < Matrix.GetLength(1) && Matrix[y + 1, x + 1] == GROUND &&
-                    y - 1 > 0 && x + 1 < Matrix.GetLength(1) && Matrix[y - 1, x + 1] == GROUND)
+                    y - 1 >= 0 && x + 1 < Matrix.GetLength(1) && Matrix[y - 1, x + 1] == GROUND)
                 {
                     return true;
                 }
@@ -259,7 +265,7 @@ namespace LevelMapGenerator
                         else
                             break;
 
-                        Y -= 1;
+                        X += 1;
                     }
                 }
             }

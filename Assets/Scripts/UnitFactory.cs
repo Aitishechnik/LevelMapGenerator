@@ -25,10 +25,14 @@ public class UnitFactory : MonoBehaviour
 
         Instance = this;
 
+        var list = _mapGenerator.GetWalkables(_unitDatasDict.Keys.Count);
+        Debug.Log(list.Count + " " + _unitDatasDict.Keys.Count);
+
         // Test: Spawn units of all types
         foreach(var type in _unitDatasDict.Keys)
         {
-            Create(type, _mapGenerator.GetWalkable());
+            Create(type, list[list.Count - 1]);
+            list.RemoveAt(list.Count - 1);
         }
         //-------------------------------
     }

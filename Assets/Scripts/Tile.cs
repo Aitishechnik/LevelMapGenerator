@@ -68,10 +68,10 @@ public class Tile : MonoBehaviour
 
     public void SetData(TileData tileData)
     {
-        transform.localScale = tileData.Size;
-        _meshRenderer.material = tileData.Material;
-        IsWalkable = tileData.IsWalkable;
         _tileData = tileData;
+        transform.localScale = _tileData.Size;
+        _meshRenderer.material = _tileData.Material;
+        IsWalkable = _tileData.IsWalkable;        
     }
 
     private void OnMouseDown()
