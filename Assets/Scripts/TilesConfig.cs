@@ -34,7 +34,11 @@ namespace LevelMapGenerator
 
         [SerializeField]
         private bool _isWalkable;
-
         public bool IsWalkable { get => _isWalkable; }
+
+        [SerializeField]
+        private float _moveCost;
+        public float MoveCost { get => _moveCost; }
+
     }
 }

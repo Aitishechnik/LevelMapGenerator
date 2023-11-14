@@ -37,6 +37,7 @@ public class Tile : MonoBehaviour
         _attachedUnit = null;
     }
 
+    public float MoveCost => _tileData.MoveCost;
     public void SetNeighbourTile(Tile neighbour, int side)
     {
         switch (side)
@@ -76,12 +77,10 @@ public class Tile : MonoBehaviour
     }
 
     public static event Action<Tile> OnTileClick;
-    public static event Action OnClick; //Создал второй евент в Tile, потому что не понимаю приоритетности вызова событий по одинаковому тригру (OnMouseDown в этом случае) из разных классов.
 
     private void OnMouseDown()
     {
         Debug.Log($"{_tileData.TileSymbol} : {transform.position} : {IsWalkable} {(IsOccupied ? "OCCUPIED" : "FREE")}");
-        OnClick?.Invoke();
         OnTileClick?.Invoke(this);
     }
 

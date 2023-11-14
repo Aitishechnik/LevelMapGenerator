@@ -12,7 +12,7 @@ public class PlayerUnitController : MonoBehaviour
 
     private Coroutine _routeCoroutineHandler;
 
-    private void ChangeDirection()
+    private void ChangeDirection(Tile tile)
     {
         if (_routeCoroutineHandler != null)
         {
@@ -31,16 +31,16 @@ public class PlayerUnitController : MonoBehaviour
     private Queue<Tile> GetRouteWrapper(Tile tile)
     {
         List<Tile> currentNeighbours = new List<Tile>();
-        Queue<Tile> queue = new Queue<Tile>();
+        PriorityQueue<float, Tile> queue = new PriorityQueue<float, Tile>();
         Dictionary<Tile, bool> visitedVertexes = new Dictionary<Tile, bool>();
         Dictionary<Tile, int> distance = new Dictionary<Tile, int>();
-        queue.Enqueue(tile);
+        queue.Enqueue(0, tile);
         visitedVertexes.Add(tile, true);
         distance.Add(tile, 0);
 
         while (queue.Count > 0)
         {
-            Tile currentTile = queue.Dequeue();
+            Tile currentTile = queue.Dequeue(out float currentTilePriority);
 
             currentTile.GetFreeNeighbours(currentNeighbours);
 
@@ -48,7 +48,7 @@ public class PlayerUnitController : MonoBehaviour
             {
                 if (!visitedVertexes.ContainsKey(currentNeighbours[i]))
                 {
-                    queue.Enqueue(currentNeighbours[i]);
+                    queue.Enqueue(currentTilePriority+currentTile.MoveCost, currentNeighbours[i]);
                     visitedVertexes.Add(currentNeighbours[i], true);
                     int currentTileDistance = distance[currentTile];
                     distance.Add(currentNeighbours[i], currentTileDistance + 1);
@@ -119,7 +119,7 @@ public class PlayerUnitController : MonoBehaviour
 
     private void Start()
     {
-        Tile.OnClick += ChangeDirection;
+        Tile.OnTileClick += ChangeDirection;
         Tile.OnTileClick += GoToTile;
     }
 }
