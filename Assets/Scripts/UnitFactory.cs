@@ -25,16 +25,18 @@ public class UnitFactory : MonoBehaviour
 
         Instance = this;
 
-        var list = _mapGenerator.GetWalkables(_unitDatasDict.Keys.Count);
-        Debug.Log(list.Count + " " + _unitDatasDict.Keys.Count);
-
         // Test: Spawn units of all types
+        /*var list = _mapGenerator.GetWalkables(_unitDatasDict.Keys.Count);
+        Debug.Log(list.Count + " " + _unitDatasDict.Keys.Count);
+  
         foreach(var type in _unitDatasDict.Keys)
         {
             Create(type, list[list.Count - 1]);
             list.RemoveAt(list.Count - 1);
-        }
+        }*/
         //-------------------------------
+
+        Create("Hero", _mapGenerator.GetWalkable());
     }
 
     public Unit Create(string type, Tile tile)

@@ -1,4 +1,5 @@
 using LevelMapGenerator;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,7 +48,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void GetFreeNeibours(List<Tile> availbleTiles)
+    public void GetFreeNeighbours(List<Tile> availbleTiles)
     {
         availbleTiles.Clear();
 
@@ -63,7 +64,7 @@ public class Tile : MonoBehaviour
 
     private bool GetProperTile(Tile tile)
     {
-        return tile != null && tile.IsWalkable && !tile.IsOccupied;
+        return tile != null && tile.IsWalkable/* && !tile.IsOccupied*/;
     }
 
     public void SetData(TileData tileData)
@@ -74,9 +75,14 @@ public class Tile : MonoBehaviour
         IsWalkable = _tileData.IsWalkable;        
     }
 
+    public static event Action<Tile> OnTileClick;
+    public static event Action OnClick; //Создал второй евент в Tile, потому что не понимаю приоритетности вызова событий по одинаковому тригру (OnMouseDown в этом случае) из разных классов.
+
     private void OnMouseDown()
     {
         Debug.Log($"{_tileData.TileSymbol} : {transform.position} : {IsWalkable} {(IsOccupied ? "OCCUPIED" : "FREE")}");
+        OnClick?.Invoke();
+        OnTileClick?.Invoke(this);
     }
 
     public bool IsNeighbour(Tile tile)

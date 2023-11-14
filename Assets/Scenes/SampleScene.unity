@@ -349,7 +349,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 15, z: 0}
+  m_LocalPosition: {x: 15.48, y: 27.18, z: 14.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -419,8 +419,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _distance: 1
   _tilesHeight: 0
-  _height: 200
-  _width: 200
+  _height: 30
+  _width: 30
   _groundTilesPotential: 25000
   _wallTilesPotential: 25000
   _wallMaxLength: 10

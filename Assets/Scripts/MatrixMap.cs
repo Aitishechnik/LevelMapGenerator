@@ -157,7 +157,7 @@ namespace LevelMapGenerator
         public const int TO_RIGHT = 1;
         private bool CheckIfWallIsAvailible(int y, int x, int wallSpawnDirection)
         {
-            if(y - 1 < 0 || y + 1 > Matrix.GetLength(0) || x - 1 < 0 || x + 1 > Matrix.GetLength(1))
+            if(y < 0 || y >= Matrix.GetLength(0) || x < 0 || x >= Matrix.GetLength(1))
                 return false;
             
 

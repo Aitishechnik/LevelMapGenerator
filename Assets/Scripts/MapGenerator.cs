@@ -38,7 +38,7 @@ public class MapGenerator : MonoBehaviour
         {
             for(int j = 0; j < _width; j++)
             {
-                var pos = new Vector3(transform.position.z + (i * _distance), _tilesHeight, transform.position.x + (j * _distance));
+                var pos = new Vector3(transform.position.x + (j * _distance), _tilesHeight, transform.position.z + (i * _distance));
                 _tiles.Add(TileFactory.Instance.Create(_matrixMap.Matrix[i, j], pos));
                 if (_tiles[_tiles.Count - 1].IsWalkable)
                     _walkableTiles.Add(_tiles[_tiles.Count - 1]);
@@ -86,11 +86,11 @@ public class MapGenerator : MonoBehaviour
             for (int j = 0; j < width; j++)
             {
                 if (i * width > width - 1)
-                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j - width], Tile.UPPER);
+                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j - width], Tile.LOW); // поменял местами upper и low
                 if (j > 0)
                     neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j - 1], Tile.LEFT);
                 if (i * width < neighbours.Count - width)
-                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j + width], Tile.LOW);
+                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j + width], Tile.UPPER);
                 if (j < width - 1)
                     neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j + 1], Tile.RIGHT);
             }

@@ -15,7 +15,7 @@ public class TestUnitController : MonoBehaviour
     private List<Tile> _neighbourTiles = new List<Tile>();
     public Tile RandomMove(Unit unit)
     {
-        unit.CurrentTile.GetFreeNeibours(_neighbourTiles);
+        unit.CurrentTile.GetFreeNeighbours(_neighbourTiles);
 
         if(_neighbourTiles.Count == 0)
             return null;
