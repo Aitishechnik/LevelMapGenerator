@@ -13,9 +13,6 @@ public class PlayerUnitController : MonoBehaviour
 
     private void ChangeDirection(Tile tile)
     {
-        if (!tile.IsWalkable || tile == null)
-            return;
-
         if (_routeCoroutineHandler != null)
         {
             Debug.Log("Coroutine is stoped");
@@ -36,7 +33,7 @@ public class PlayerUnitController : MonoBehaviour
         List<Tile> currentNeighbours = new List<Tile>();
         PriorityQueue<float, Tile> queue = new PriorityQueue<float, Tile>();
         Dictionary<Tile, bool> visitedVertexes = new Dictionary<Tile, bool>();
-        Dictionary<Tile, int> distance = new Dictionary<Tile, int>();
+        Dictionary<Tile, float> distance = new Dictionary<Tile, float>();
         queue.Enqueue(0, tile);
         visitedVertexes.Add(tile, true);
         distance.Add(tile, 0);
@@ -53,8 +50,8 @@ public class PlayerUnitController : MonoBehaviour
                 {
                     queue.Enqueue(currentTilePriority+currentTile.MoveCost, currentNeighbours[i]);
                     visitedVertexes.Add(currentNeighbours[i], true);
-                    int currentTileDistance = distance[currentTile];
-                    distance.Add(currentNeighbours[i], currentTileDistance + 1);
+                    var currentTileDistance = distance[currentTile];
+                    distance.Add(currentNeighbours[i], currentTileDistance + currentTile.MoveCost + HeuristicDistance(currentNeighbours[i], _unit.CurrentTile));
                     if (currentNeighbours[i] == _unit.CurrentTile)
                     {
                         queue.Clear();
@@ -66,10 +63,17 @@ public class PlayerUnitController : MonoBehaviour
 
         return GetRoute(distance);
     }
-    private void GoToTile(Tile tile)
+
+    private float HeuristicDistance(Tile tile1, Tile tile2)
     {
+        return Vector3.Distance(tile1.transform.position, tile2.transform.position);
+    }
+
+    private void GoToTile(Tile tile)
+    {      
         if (!tile.IsWalkable || tile == null)
             return;
+        ChangeDirection(tile);
         _routeCoroutineHandler = StartCoroutine(RouteCoroutine(tile));
     }
 
@@ -89,33 +93,34 @@ public class PlayerUnitController : MonoBehaviour
         _routeCoroutineHandler = null;
     }
 
-    private Queue<Tile> GetRoute(Dictionary<Tile, int> routeTiles)
+    private Queue<Tile> GetRoute(Dictionary<Tile, float> routeTiles)
     {
         var route = new Queue<Tile>();
-        int stepsToTarget = 0;
+        var neighbours = new List<Tile>();
 
-        foreach(var _value in routeTiles.Values)
-        {
-            if (_value > stepsToTarget)
-                stepsToTarget = _value;
-        }
-
-        if (routeTiles.TryGetValue(_unit.CurrentTile, out int value)/* && value == stepsToTarget*/)
+        if (routeTiles.TryGetValue(_unit.CurrentTile, out float pathCost)/* && value == stepsToTarget*/)
         {
             Tile currentStep = _unit.CurrentTile;
 
-            while(stepsToTarget > 0)
-            {
-                stepsToTarget--;
-                
-                foreach(var i in routeTiles)
+            while(pathCost > 0)
+            {   
+                currentStep.GetFreeNeighbours(neighbours);
+                float minCost = float.MaxValue;
+                int minIndex = -1;
+
+                for(int i = 0; i < neighbours.Count; i++)
                 {
-                    if (i.Value == stepsToTarget && currentStep.IsNeighbour(i.Key))
+                    if(routeTiles.TryGetValue(neighbours[i], out float neighbourCost))
                     {
-                        currentStep = i.Key;
-                        route.Enqueue(currentStep);
-                    }                        
+                        if(minCost < neighbourCost)
+                        {
+                            minCost = neighbourCost;
+                            minIndex = i;
+                        }
+                    }
                 }
+                route.Enqueue(neighbours[minIndex]);
+                pathCost = minCost;
             }
         }
 
@@ -124,7 +129,6 @@ public class PlayerUnitController : MonoBehaviour
 
     private void Start()
     {
-        Tile.OnTileClick += ChangeDirection;
         Tile.OnTileClick += GoToTile;
     }
 }
