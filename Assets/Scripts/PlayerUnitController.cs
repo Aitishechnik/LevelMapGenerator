@@ -51,7 +51,7 @@ public class PlayerUnitController : MonoBehaviour
                     queue.Enqueue(currentTilePriority+currentTile.MoveCost, currentNeighbours[i]);
                     visitedVertexes.Add(currentNeighbours[i], true);
                     var currentTileDistance = distance[currentTile];
-                    distance.Add(currentNeighbours[i], currentTileDistance + currentTile.MoveCost + HeuristicDistance(currentNeighbours[i], _unit.CurrentTile));
+                    distance.Add(currentNeighbours[i], currentTileDistance + currentTile.MoveCost/* + HeuristicDistance(currentNeighbours[i], _unit.CurrentTile)*/);
                     if (currentNeighbours[i] == _unit.CurrentTile)
                     {
                         queue.Clear();
@@ -112,7 +112,7 @@ public class PlayerUnitController : MonoBehaviour
                 {
                     if(routeTiles.TryGetValue(neighbours[i], out float neighbourCost))
                     {
-                        if(minCost < neighbourCost)
+                        if(neighbourCost < minCost)
                         {
                             minCost = neighbourCost;
                             minIndex = i;
@@ -121,6 +121,7 @@ public class PlayerUnitController : MonoBehaviour
                 }
                 route.Enqueue(neighbours[minIndex]);
                 pathCost = minCost;
+                currentStep = neighbours[minIndex];
             }
         }
 
