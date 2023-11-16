@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerUnitController : MonoBehaviour
@@ -14,6 +13,9 @@ public class PlayerUnitController : MonoBehaviour
 
     private void ChangeDirection(Tile tile)
     {
+        if (!tile.IsWalkable || tile == null)
+            return;
+
         if (_routeCoroutineHandler != null)
         {
             Debug.Log("Coroutine is stoped");
@@ -24,7 +26,8 @@ public class PlayerUnitController : MonoBehaviour
 
     private bool IsUnitMoving()
     {
-        Debug.Log("Stopping");
+        if (_unit.IsMoving)
+            Debug.Log("Stopping");
         return !_unit.IsMoving;
     }
     
@@ -65,6 +68,8 @@ public class PlayerUnitController : MonoBehaviour
     }
     private void GoToTile(Tile tile)
     {
+        if (!tile.IsWalkable || tile == null)
+            return;
         _routeCoroutineHandler = StartCoroutine(RouteCoroutine(tile));
     }
 
@@ -95,7 +100,7 @@ public class PlayerUnitController : MonoBehaviour
                 stepsToTarget = _value;
         }
 
-        if (routeTiles.TryGetValue(_unit.CurrentTile, out int value) && value == stepsToTarget)
+        if (routeTiles.TryGetValue(_unit.CurrentTile, out int value)/* && value == stepsToTarget*/)
         {
             Tile currentStep = _unit.CurrentTile;
 

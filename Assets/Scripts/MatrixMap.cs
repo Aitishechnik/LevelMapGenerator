@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 
 namespace LevelMapGenerator
 {
@@ -13,6 +6,8 @@ namespace LevelMapGenerator
     {
         private static Random random = new Random();
         public const char GROUND = 'G';
+        public const char SWAMP = 'S';
+        public const char ASPHALT = 'A';
         public const char WALL = 'W';
         public const char RIVER = 'R';
         public const char EMPTY = '_';
@@ -34,13 +29,13 @@ namespace LevelMapGenerator
             return false;
         }
 
-        private void FillWithGroundOnly()
+        private void FillWithWalkablesOnly()
         {
             for (int i = 0; i < Matrix.GetLength(0); i++)
             {
                 for (int j = 0; j < Matrix.GetLength(1); j++)
                 {
-                    Matrix[i, j] = GROUND;
+                    Matrix[i, j] = GetRandomWalkable();
                 }
             }
         }
@@ -58,7 +53,7 @@ namespace LevelMapGenerator
             if (groundAmount >= hight * width)
             {
                 groundAmount = hight * width;
-                FillWithGroundOnly();
+                FillWithWalkablesOnly();
                 groundAmount = 0;
             }
             else if (groundAmount < 0)
@@ -66,7 +61,7 @@ namespace LevelMapGenerator
             else
                 _groundPotential = groundAmount;
 
-            GenerateGroundTiles();
+            GenerateWalkableTiles();
             if (CheckIfEmptiesLeft())
             {
                 GenerateRiverTiles();
@@ -79,13 +74,27 @@ namespace LevelMapGenerator
             
         }
 
-        private void GenerateGroundTiles()
+        private char GetRandomWalkable()
+        {
+            var letter = random.Next(0, 3);
+
+            switch (letter)
+            {
+                case 0: return GROUND;
+                case 1: return SWAMP;
+                case 2: return ASPHALT;
+            }
+
+            throw new Exception("Missed walkable tile!");
+        }
+
+        private void GenerateWalkableTiles()
         {
             int exDirection = -1;
             int direction = exDirection;
             int Y = random.Next(0, Matrix.GetLength(0));
             int X = random.Next(0, Matrix.GetLength(1));
-            Matrix[Y, X] = GROUND;
+            Matrix[Y, X] = GetRandomWalkable();
             _groundPotential -= 1;
 
             while (_groundPotential > 0)
@@ -101,7 +110,7 @@ namespace LevelMapGenerator
                 {
                     if (Matrix[Y - 1, X] == EMPTY)
                     {
-                        Matrix[Y - 1, X] = GROUND;
+                        Matrix[Y - 1, X] = GetRandomWalkable();
                         _groundPotential--;
                     }
 
@@ -111,7 +120,7 @@ namespace LevelMapGenerator
                 {
                     if (Matrix[Y, X - 1] == EMPTY)
                     {
-                        Matrix[Y, X - 1] = GROUND;
+                        Matrix[Y, X - 1] = GetRandomWalkable();
                         _groundPotential--;
                     }
 
@@ -121,7 +130,7 @@ namespace LevelMapGenerator
                 {
                     if (Matrix[Y + 1, X] == EMPTY)
                     {
-                        Matrix[Y + 1, X] = GROUND;
+                        Matrix[Y + 1, X] = GetRandomWalkable();
                         _groundPotential--;
                     }
 
@@ -131,7 +140,7 @@ namespace LevelMapGenerator
                 {
                     if (Matrix[Y, X + 1] == EMPTY)
                     {
-                        Matrix[Y, X + 1] = GROUND;
+                        Matrix[Y, X + 1] = GetRandomWalkable();
                         _groundPotential--;
                     }
 
@@ -155,21 +164,31 @@ namespace LevelMapGenerator
         public const int TO_BOTTOM = 0;
         public const int TO_LEFT = 3;
         public const int TO_RIGHT = 1;
+
+        private bool CheckIfWalkable(char tile)
+        {
+            switch (tile)
+            {
+                case GROUND: return true;
+                case SWAMP: return true;
+                case ASPHALT: return true;
+                default: return false;
+            }
+        }
         private bool CheckIfWallIsAvailible(int y, int x, int wallSpawnDirection)
         {
             if(y < 0 || y >= Matrix.GetLength(0) || x < 0 || x >= Matrix.GetLength(1))
-                return false;
-            
+                return false;            
 
-            if (y - 1 >= 0 && (Matrix[y - 1, x] == GROUND || wallSpawnDirection == TO_TOP) &&
-                y + 1 < Matrix.GetLength(0) && (Matrix[y + 1, x] == GROUND || wallSpawnDirection == TO_BOTTOM) &&
-                x - 1 >= 0 && (Matrix[y, x - 1] == GROUND || wallSpawnDirection == TO_LEFT) &&
-                x + 1 < Matrix.GetLength(1) && (Matrix[y, x + 1] == GROUND || wallSpawnDirection == TO_RIGHT))
+            if (y - 1 >= 0 && (CheckIfWalkable(Matrix[y - 1, x]) || wallSpawnDirection == TO_TOP) &&
+                y + 1 < Matrix.GetLength(0) && (CheckIfWalkable(Matrix[y + 1, x]) || wallSpawnDirection == TO_BOTTOM) &&
+                x - 1 >= 0 && (CheckIfWalkable(Matrix[y, x - 1]) || wallSpawnDirection == TO_LEFT) &&
+                x + 1 < Matrix.GetLength(1) && (CheckIfWalkable(Matrix[y, x + 1]) || wallSpawnDirection == TO_RIGHT))
             {
-                if (y - 1 >= 0 && x - 1 >= 0 && Matrix[y - 1, x - 1] == GROUND &&
-                    y + 1 < Matrix.GetLength(0) && x - 1 >= 0 && Matrix[y + 1, x - 1] == GROUND &&
-                    y + 1 < Matrix.GetLength(0) && x + 1 < Matrix.GetLength(1) && Matrix[y + 1, x + 1] == GROUND &&
-                    y - 1 >= 0 && x + 1 < Matrix.GetLength(1) && Matrix[y - 1, x + 1] == GROUND)
+                if (y - 1 >= 0 && x - 1 >= 0 && CheckIfWalkable(Matrix[y - 1, x - 1]) &&
+                    y + 1 < Matrix.GetLength(0) && x - 1 >= 0 &&  CheckIfWalkable(Matrix[y + 1, x - 1]) &&
+                    y + 1 < Matrix.GetLength(0) && x + 1 < Matrix.GetLength(1) && CheckIfWalkable(Matrix[y + 1, x + 1]) &&
+                    y - 1 >= 0 && x + 1 < Matrix.GetLength(1) && CheckIfWalkable(Matrix[y - 1, x + 1]))
                 {
                     return true;
                 }
