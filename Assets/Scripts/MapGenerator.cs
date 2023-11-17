@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using LevelMapGenerator;
-using JetBrains.Annotations;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -24,19 +22,24 @@ public class MapGenerator : MonoBehaviour
     private int _wallTilesPotential = 10;
     [SerializeField]
     private int _wallMaxLength = 10;
+    [SerializeField]
+    private bool _proceduralGeneration = true;
 
     private MatrixMap _matrixMap;
     private void Awake()
     {
-        _matrixMap = new MatrixMap(_height, _width, _groundTilesPotential, _wallTilesPotential, _wallMaxLength);
+        if (_proceduralGeneration)
+            _matrixMap = new MatrixMap(_height, _width, _groundTilesPotential, _wallTilesPotential, _wallMaxLength);
+        else
+            _matrixMap = new MatrixMap();
         GenerteTilesField();
     }
 
     private void GenerteTilesField()
     {
-        for(int i = 0; i < _height;  i++)
+        for(int i = 0; i < _matrixMap.Matrix.GetLength(0);  i++)
         {
-            for(int j = 0; j < _width; j++)
+            for(int j = 0; j < _matrixMap.Matrix.GetLength(1); j++)
             {
                 var pos = new Vector3(transform.position.x + (j * _distance), _tilesHeight, transform.position.z + (i * _distance));
                 _tiles.Add(TileFactory.Instance.Create(_matrixMap.Matrix[i, j], pos));
@@ -86,7 +89,7 @@ public class MapGenerator : MonoBehaviour
             for (int j = 0; j < width; j++)
             {
                 if (i * width > width - 1)
-                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j - width], Tile.LOW); // поменял местами upper и low
+                    neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j - width], Tile.LOW);
                 if (j > 0)
                     neighbours[iterator + j].SetNeighbourTile(neighbours[iterator + j - 1], Tile.LEFT);
                 if (i * width < neighbours.Count - width)

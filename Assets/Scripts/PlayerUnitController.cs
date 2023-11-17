@@ -32,10 +32,10 @@ public class PlayerUnitController : MonoBehaviour
     {
         List<Tile> currentNeighbours = new List<Tile>();
         PriorityQueue<float, Tile> queue = new PriorityQueue<float, Tile>();
-        Dictionary<Tile, bool> visitedVertexes = new Dictionary<Tile, bool>();
+        List<Tile> visitedVertexes = new List<Tile>();
         Dictionary<Tile, float> distance = new Dictionary<Tile, float>();
         queue.Enqueue(0, tile);
-        visitedVertexes.Add(tile, true);
+        visitedVertexes.Add(tile);
         distance.Add(tile, 0);
 
         while (queue.Count > 0)
@@ -46,10 +46,10 @@ public class PlayerUnitController : MonoBehaviour
 
             for (int i = 0; i < currentNeighbours.Count; i++)
             {
-                if (!visitedVertexes.ContainsKey(currentNeighbours[i]))
+                if (!visitedVertexes.Contains(currentNeighbours[i]))
                 {
-                    queue.Enqueue(currentTilePriority+currentTile.MoveCost, currentNeighbours[i]);
-                    visitedVertexes.Add(currentNeighbours[i], true);
+                    queue.Enqueue(currentTilePriority + currentTile.MoveCost, currentNeighbours[i]);
+                    visitedVertexes.Add(currentNeighbours[i]);
                     var currentTileDistance = distance[currentTile];
                     distance.Add(currentNeighbours[i], currentTileDistance + currentTile.MoveCost/* + HeuristicDistance(currentNeighbours[i], _unit.CurrentTile)*/);
                     if (currentNeighbours[i] == _unit.CurrentTile)
@@ -98,7 +98,7 @@ public class PlayerUnitController : MonoBehaviour
         var route = new Queue<Tile>();
         var neighbours = new List<Tile>();
 
-        if (routeTiles.TryGetValue(_unit.CurrentTile, out float pathCost)/* && value == stepsToTarget*/)
+        if (routeTiles.TryGetValue(_unit.CurrentTile, out float pathCost))
         {
             Tile currentStep = _unit.CurrentTile;
 

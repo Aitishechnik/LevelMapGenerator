@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Palmmedia.ReportGenerator.Core;
+using System;
+using System.IO;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
+using Unity.VisualScripting;
+using UnityEditor.PackageManager.Requests;
 
 namespace LevelMapGenerator
 {
@@ -38,6 +43,24 @@ namespace LevelMapGenerator
                     Matrix[i, j] = GetRandomWalkable();
                 }
             }
+        }
+        public MatrixMap()
+        {
+            int height;
+            int width;
+            var address = File.ReadAllText(@"MatrixMap.txt");
+            int.TryParse(address.Split('\n')[0].Split(' ')[0], out height);
+            int.TryParse(address.Split('\n')[0].Split(' ')[1], out width);
+            Matrix = new char[height, width];
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    Matrix[i, j] = address.Split('\n')[i + 1][j];
+                }
+            }
+
         }
         public MatrixMap(int hight, int width, int groundAmount, int wallsPotential, int wallMaxLength)
         {
