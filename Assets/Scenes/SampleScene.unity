@@ -425,6 +425,7 @@ MonoBehaviour:
   _wallTilesPotential: 1000
   _wallMaxLength: 1000
   _proceduralGeneration: 0
+  _fileAddress: MatrixMap.txt
 --- !u!4 &1720046094
 Transform:
   m_ObjectHideFlags: 0

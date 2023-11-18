@@ -42,8 +42,8 @@ public class PlayerUnitController : MonoBehaviour
         {
             Tile currentTile = queue.Dequeue(out float currentTilePriority);
 
-             currentTile.GetFreeNeighbours(currentNeighbours);
-
+            currentTile.GetFreeNeighbours(currentNeighbours);
+            currentTile.DebugText.text = distance[currentTile].ToString();
             for (int i = 0; i < currentNeighbours.Count; i++)
             {
                 if (!visitedVertexes.Contains(currentNeighbours[i]))
@@ -51,7 +51,7 @@ public class PlayerUnitController : MonoBehaviour
                     queue.Enqueue(currentTilePriority + currentTile.MoveCost, currentNeighbours[i]);
                     visitedVertexes.Add(currentNeighbours[i]);
                     var currentTileDistance = distance[currentTile];
-                    distance.Add(currentNeighbours[i], currentTileDistance + currentTile.MoveCost/* + HeuristicDistance(currentNeighbours[i], _unit.CurrentTile)*/);
+                    distance.Add(currentNeighbours[i], currentTileDistance + currentNeighbours[i].MoveCost/* + HeuristicDistance(currentNeighbours[i], _unit.CurrentTile)*/);
                     if (currentNeighbours[i] == _unit.CurrentTile)
                     {
                         queue.Clear();

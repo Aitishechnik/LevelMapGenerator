@@ -44,11 +44,12 @@ namespace LevelMapGenerator
                 }
             }
         }
-        public MatrixMap()
+        public MatrixMap(string fileAddress)
         {
+            
             int height;
             int width;
-            var address = File.ReadAllText(@"MatrixMap.txt");
+            var address = File.ReadAllText(fileAddress);
             int.TryParse(address.Split('\n')[0].Split(' ')[0], out height);
             int.TryParse(address.Split('\n')[0].Split(' ')[1], out width);
             Matrix = new char[height, width];

@@ -25,13 +25,16 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     private bool _proceduralGeneration = true;
 
+    [SerializeField]
+    private string _fileAddress;
+
     private MatrixMap _matrixMap;
     private void Awake()
     {
         if (_proceduralGeneration)
             _matrixMap = new MatrixMap(_height, _width, _groundTilesPotential, _wallTilesPotential, _wallMaxLength);
         else
-            _matrixMap = new MatrixMap();
+            _matrixMap = new MatrixMap(_fileAddress);
         GenerteTilesField();
     }
 

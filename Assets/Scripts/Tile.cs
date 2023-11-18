@@ -2,6 +2,7 @@ using LevelMapGenerator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -23,7 +24,11 @@ public class Tile : MonoBehaviour
     private TileData _tileData;
 
     [SerializeField]
+    private TextMeshPro _textMeshProUGUI;
 
+    public TextMeshPro DebugText => _textMeshProUGUI;
+
+    [SerializeField]
     public bool IsOccupied => _attachedUnit != null;
 
     public bool IsWalkable { get; private set; } = false;
