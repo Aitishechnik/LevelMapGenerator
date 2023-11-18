@@ -83,7 +83,7 @@ public class Tile : MonoBehaviour
 
     public static event Action<Tile> OnTileClick;
 
-    private void OnMouseDown()
+    public void ProcessTileClick()
     {
         Debug.Log($"{_tileData.TileSymbol} : {transform.position} : {IsWalkable} {(IsOccupied ? "OCCUPIED" : "FREE")}");
         OnTileClick?.Invoke(this);
