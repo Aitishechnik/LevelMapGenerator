@@ -425,8 +425,6 @@ MonoBehaviour:
   _wallTilesPotential: 1000
   _wallMaxLength: 1000
   _proceduralGeneration: 0
-  _adress: "C:\\Users\\\u0420\u0443\u0441\u0442\u0430\u043C\\source\\UnityProjects\\Create
-    with Code\\LevelMapGenerator"
 --- !u!4 &1720046094
 Transform:
   m_ObjectHideFlags: 0

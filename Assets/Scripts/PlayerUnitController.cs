@@ -42,7 +42,7 @@ public class PlayerUnitController : MonoBehaviour
         {
             Tile currentTile = queue.Dequeue(out float currentTilePriority);
 
-            currentTile.GetFreeNeighbours(currentNeighbours);
+             currentTile.GetFreeNeighbours(currentNeighbours);
 
             for (int i = 0; i < currentNeighbours.Count; i++)
             {
