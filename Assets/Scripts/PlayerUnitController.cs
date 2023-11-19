@@ -1,13 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlayerUnitController : MonoBehaviour
 {
     [SerializeField]
     private Unit _unit;
+
+    public Tile CurrentTarget { get; private set; }
 
     private Coroutine _routeCoroutineHandler;
 
@@ -17,6 +17,7 @@ public class PlayerUnitController : MonoBehaviour
         {
             Debug.Log("Coroutine is stoped");
             StopCoroutine(_routeCoroutineHandler);
+            CurrentTarget = tile;
             _routeCoroutineHandler = null;
         }
     }
@@ -29,7 +30,7 @@ public class PlayerUnitController : MonoBehaviour
     }
     
     private Queue<Tile> GetRouteWrapper(Tile tile)
-    {
+    {       
         List<Tile> currentNeighbours = new List<Tile>();
         PriorityQueue<float, Tile> queue = new PriorityQueue<float, Tile>();
         List<Tile> visitedVertexes = new List<Tile>();
@@ -43,7 +44,7 @@ public class PlayerUnitController : MonoBehaviour
             Tile currentTile = queue.Dequeue(out float currentTilePriority);
 
             currentTile.GetFreeNeighbours(currentNeighbours);
-            currentTile.DebugText.text = distance[currentTile].ToString();
+            //currentTile.DebugText.text = distance[currentTile].ToString();
             for (int i = 0; i < currentNeighbours.Count; i++)
             {
                 if (!visitedVertexes.Contains(currentNeighbours[i]))
@@ -71,7 +72,7 @@ public class PlayerUnitController : MonoBehaviour
 
     private void GoToTile(Tile tile)
     {      
-        if (!tile.IsWalkable || tile == null)
+        if (tile == null || !tile.IsWalkable || tile == CurrentTarget)
             return;
         ChangeDirection(tile);
         _routeCoroutineHandler = StartCoroutine(RouteCoroutine(tile));
@@ -81,6 +82,7 @@ public class PlayerUnitController : MonoBehaviour
     {
         yield return new WaitUntil(IsUnitMoving);
 
+        CurrentTarget = tile;
         var route = GetRouteWrapper(tile);
 
         while (route.Count > 0)
@@ -91,6 +93,7 @@ public class PlayerUnitController : MonoBehaviour
             yield return null;
         }
         _routeCoroutineHandler = null;
+        CurrentTarget = null;
     }
 
     private Queue<Tile> GetRoute(Dictionary<Tile, float> routeTiles)
@@ -122,6 +125,7 @@ public class PlayerUnitController : MonoBehaviour
                 route.Enqueue(neighbours[minIndex]);
                 pathCost = minCost;
                 currentStep = neighbours[minIndex];
+                currentStep.DebugText.text = pathCost.ToString();
             }
         }
 

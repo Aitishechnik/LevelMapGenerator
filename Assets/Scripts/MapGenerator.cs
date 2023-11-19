@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LevelMapGenerator;
@@ -47,7 +46,11 @@ public class MapGenerator : MonoBehaviour
                 var pos = new Vector3(transform.position.x + (j * _distance), _tilesHeight, transform.position.z + (i * _distance));
                 _tiles.Add(TileFactory.Instance.Create(_matrixMap.Matrix[i, j], pos));
                 if (_tiles[_tiles.Count - 1].IsWalkable)
+                {
                     _walkableTiles.Add(_tiles[_tiles.Count - 1]);
+                    PlayerInput.ClearAllDebugText += _walkableTiles[_walkableTiles.Count - 1].ClearDebugText;
+                }
+                    
             }
         }
 

@@ -1,6 +1,5 @@
 using LevelMapGenerator;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -70,7 +69,7 @@ public class Tile : MonoBehaviour
 
     private bool GetProperTile(Tile tile)
     {
-        return tile != null && tile.IsWalkable/* && !tile.IsOccupied*/;
+        return tile != null && tile.IsWalkable;
     }
 
     public void SetData(TileData tileData)
@@ -92,5 +91,10 @@ public class Tile : MonoBehaviour
     public bool IsNeighbour(Tile tile)
     {
         return tile == UpperTile || tile == LeftTile || tile == LowerTile || tile == RightTile;
+    }
+
+    public void ClearDebugText()
+    {
+        DebugText.text = string.Empty;
     }
 }
