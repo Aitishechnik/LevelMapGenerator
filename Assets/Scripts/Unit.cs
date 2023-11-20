@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Unit : MonoBehaviour 
@@ -40,8 +41,6 @@ public class Unit : MonoBehaviour
         IsMoving = false;
     }
 
-
-
     public void AttachToTile(Tile tile) 
     {
         if (CurrentTile != null)
@@ -57,6 +56,7 @@ public class Unit : MonoBehaviour
         ThisUnitData = unitData;
         _meshFilter.mesh = ThisUnitData.Mesh;
         _meshRenderer.material = ThisUnitData.Material;
+        tag = ThisUnitData.IsControlable ? "Player" : "Untagged";
     }
 
     public void MoveToTile(Tile tile, bool isTeleport = false)
@@ -89,5 +89,10 @@ public class Unit : MonoBehaviour
                 throw new Exception("Is not a neighbour.");
             }
         }           
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Test");
     }
 }

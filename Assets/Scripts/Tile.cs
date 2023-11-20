@@ -84,7 +84,6 @@ public class Tile : MonoBehaviour
 
     public void ProcessTileClick()
     {
-        Debug.Log($"{_tileData.TileSymbol} : {transform.position} : {IsWalkable} {(IsOccupied ? "OCCUPIED" : "FREE")}");
         OnTileClick?.Invoke(this);
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UnitsConfig", menuName = "Configs/UnitsConfig")]
@@ -15,8 +16,7 @@ public class UnitsConfig : ScriptableObject
 public class UnitData
 {
     [SerializeField]
-    private float _offsetY =1f;
-    
+    private float _offsetY =1f;   
     public float OffsetY => _offsetY;
 
     [SerializeField]

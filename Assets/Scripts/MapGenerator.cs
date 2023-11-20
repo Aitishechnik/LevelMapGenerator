@@ -5,7 +5,7 @@ using LevelMapGenerator;
 public class MapGenerator : MonoBehaviour
 {
     private List<Tile> _tiles = new List<Tile>();
-    private List<Tile> _walkableTiles = new List<Tile>();
+    private static List<Tile> _walkableTiles = new List<Tile>();
     [SerializeField]
     private float _distance = 1.0f;
     [SerializeField]
