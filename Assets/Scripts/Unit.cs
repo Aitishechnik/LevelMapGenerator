@@ -91,8 +91,8 @@ public class Unit : MonoBehaviour
         }           
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Test");
-    }
+    }*/
 }

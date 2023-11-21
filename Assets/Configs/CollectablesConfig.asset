@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: CollectablesConfig
   m_EditorClassIdentifier: 
   _collectables:
-  - _offsetY: 1
-    _name: LesserExpSphere
-    _size: {x: 0.2, y: 0.2, z: 0.2}
+  - _type: 0
+    _expiriece: 20
+    _gold: 0
+    _offsetY: 1
+    _name: LesserExpOrb
+    _size: {x: 0.6, y: 0.6, z: 0.6}
     _material: {fileID: 2100000, guid: 9f26f662ed3690548925b9fef50bbc22, type: 2}
     _mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}

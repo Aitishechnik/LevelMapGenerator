@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Drawing;
 using UnityEngine;
@@ -21,15 +22,19 @@ public class Collectable : MonoBehaviour
         transform.localScale = ThisCollectableData.Size;
         _meshRenderer.material = ThisCollectableData.Material;
         _meshFilter.mesh = ThisCollectableData.Mesh;
+        //State(false);
     }
 
-    private void State(bool state)
+    public void State(bool state)
     {
         _collider.enabled = state;
         _meshRenderer.enabled = state;
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collected");
+        if (other.CompareTag("Player"))
+            OnCollectEvent?.Invoke(this);
     }
+
+    public static event Action<Collectable> OnCollectEvent;
 }

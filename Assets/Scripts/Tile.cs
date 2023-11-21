@@ -30,7 +30,13 @@ public class Tile : MonoBehaviour
     [SerializeField]
     public bool IsOccupied => _attachedUnit != null;
 
+    public bool IsHavingCollectable { get; private set; } = false;
     public bool IsWalkable { get; private set; } = false;
+
+    public void SetCollectableBinding(bool havingCollectable)
+    {
+        IsHavingCollectable = havingCollectable;
+    }
 
     public void AttachUnit(Unit unit)
     {

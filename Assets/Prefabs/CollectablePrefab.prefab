@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 897575004256938074}
   - component: {fileID: 6907002690263256591}
   - component: {fileID: 2106177491099057523}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CollectablePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 2245449761743749712}
   - component: {fileID: 5175698701926231853}
   - component: {fileID: 4737505384262512890}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
