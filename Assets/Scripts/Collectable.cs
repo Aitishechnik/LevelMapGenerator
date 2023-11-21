@@ -22,7 +22,7 @@ public class Collectable : MonoBehaviour
         transform.localScale = ThisCollectableData.Size;
         _meshRenderer.material = ThisCollectableData.Material;
         _meshFilter.mesh = ThisCollectableData.Mesh;
-        //State(false);
+        State(false);
     }
 
     public void State(bool state)

@@ -18,6 +18,14 @@ MonoBehaviour:
     _gold: 0
     _offsetY: 1
     _name: LesserExpOrb
-    _size: {x: 0.6, y: 0.6, z: 0.6}
+    _size: {x: 0.3, y: 0.3, z: 0.3}
     _material: {fileID: 2100000, guid: 9f26f662ed3690548925b9fef50bbc22, type: 2}
+    _mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  - _type: 0
+    _expiriece: 40
+    _gold: 0
+    _offsetY: 1
+    _name: LargeExpOrb
+    _size: {x: 0.45, y: 0.45, z: 0.45}
+    _material: {fileID: 2100000, guid: 7173f4ac477438f4f858520a7a4f5600, type: 2}
     _mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}

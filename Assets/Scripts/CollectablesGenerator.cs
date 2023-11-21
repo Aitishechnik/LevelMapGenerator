@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Collectables;
-using TMPro;
 
 public class CollectablesGenerator : MonoBehaviour
 {
     private const float RESPAWN_TIME = 5f;
+    private const float INIT_TIME_GAP = 5f;
     [SerializeField]
     private CollectablesAccounting _collectablesAccounting;
 
@@ -28,8 +28,19 @@ public class CollectablesGenerator : MonoBehaviour
                 tile = _mapGenerator.GetWalkable();
             } while (tile.IsOccupied);
 
-            var collectable = CollectableFactory.Instance.Create("LesserExpOrb", tile.transform.position);
-            _availibleOrbs.Enqueue(collectable);
+            var rnd = Random.Range(0,2);
+
+            if(rnd == 0)
+            {
+                var collectable = CollectableFactory.Instance.Create("LesserExpOrb", tile.transform.position);
+                _availibleOrbs.Enqueue(collectable);
+            }
+            if (rnd == 1)
+            {
+                var collectable = CollectableFactory.Instance.Create("LargeExpOrb", tile.transform.position);
+                _availibleOrbs.Enqueue(collectable);
+            }
+            
         }
     }
 
@@ -38,17 +49,19 @@ public class CollectablesGenerator : MonoBehaviour
         Collectable.OnCollectEvent += OnCollect;
         _collectablesAccounting.UpdateTextTempalte();
         InitExpOrbs();
+        StartCoroutine(InitAllCollectables());
     }
 
     private void OnCollect(Collectable collectable)
     {
-        StartCoroutine(CollectableSpawn(collectable));
+        StartCoroutine(CollectableSpawn(collectable, RESPAWN_TIME));
         _collectablesAccounting.UpdateTextInfo(collectable);
     }
-    private IEnumerator CollectableSpawn(Collectable collectable)
-    {
+    private IEnumerator CollectableSpawn(Collectable collectable, float time)
+    {        
         collectable.State(false);
-        yield return new WaitForSeconds(RESPAWN_TIME);
+        _availibleOrbs.Enqueue(collectable);
+        yield return new WaitForSeconds(time);
 
         Tile tile;
 
@@ -59,5 +72,14 @@ public class CollectablesGenerator : MonoBehaviour
 
         collectable.transform.position = tile.transform.position + new Vector3(0, collectable.ThisCollectableData.OffsetY, 0);
         collectable.State(true);
+    }
+
+    private IEnumerator InitAllCollectables()
+    {
+        while(_availibleOrbs.Count > 0)
+        {
+            StartCoroutine(CollectableSpawn(_availibleOrbs.Dequeue(), 0));
+            yield return new WaitForSeconds(INIT_TIME_GAP);
+        }
     }
 }
