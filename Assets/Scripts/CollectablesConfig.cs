@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CollectablesConfig", menuName = "Configs/CollectablesConfig")]
@@ -17,6 +15,14 @@ public enum CollectableType { Exp, Currency, PowerUp, Skill, Item }
 [Serializable]
 public class CollectableData
 {
+    [SerializeField]
+    private int _maxItemsOnScene;
+    public int MaxItemsOnScene => _maxItemsOnScene < 0 ? 0 : _maxItemsOnScene;
+
+    [SerializeField]
+    private float _respawnTime;
+    public float RespawnTime => _respawnTime < 0 ? 0 : _respawnTime;
+
     [SerializeField]
     private CollectableType _type;
     public CollectableType Type => _type;

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: CollectablesConfig
   m_EditorClassIdentifier: 
   _collectables:
-  - _type: 0
+  - _maxItemsOnScene: 5
+    _respawnTime: 1
+    _type: 0
     _expiriece: 20
     _gold: 0
     _offsetY: 1
@@ -21,7 +23,9 @@ MonoBehaviour:
     _size: {x: 0.3, y: 0.3, z: 0.3}
     _material: {fileID: 2100000, guid: 9f26f662ed3690548925b9fef50bbc22, type: 2}
     _mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  - _type: 0
+  - _maxItemsOnScene: 2
+    _respawnTime: 1
+    _type: 0
     _expiriece: 40
     _gold: 0
     _offsetY: 1
