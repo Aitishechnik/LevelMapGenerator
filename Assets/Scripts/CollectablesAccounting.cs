@@ -18,20 +18,12 @@ namespace Collectables
 
         private const string EXP = "EXP";
 
-        private void Awake()
-        {
-            Experience = PlayerPrefs.GetInt(EXP);
-        }
-
         public void UpdateTextInfo(Collectable collectable)
         {
             switch (collectable.ThisCollectableData.Type)
             {
                 case CollectableType.Exp:
-                    Experience += collectable.ThisCollectableData.Expirience;
-                    PlayerPrefs.SetInt(EXP, Experience);
-                    PlayerPrefs.Save();
-                    
+                    Experience += collectable.ThisCollectableData.Expirience;                   
                     UpdateTextTempalte();
                     break;
 

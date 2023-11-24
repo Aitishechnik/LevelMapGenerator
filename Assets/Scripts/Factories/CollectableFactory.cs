@@ -18,11 +18,9 @@ public class CollectableFactory : MonoBehaviour
 
     private Dictionary<string, CollectableData> _collectableDatasDict = new Dictionary<string, CollectableData>();
 
-    //public Dictionary<string, CollectableData> CollectableDatasDict => _collectableDatasDict;
-
     private void Awake()
     {
-        _pool = new CollectablesPool(transform, _prefabCollectable, MaxCollectablesOnScene());
+        _pool = new CollectablesPool(transform, _prefabCollectable);
 
         foreach(var collectableData in _collectablesConfig.Collectables)
         {
@@ -32,25 +30,12 @@ public class CollectableFactory : MonoBehaviour
         Instance = this;
     }
 
-    public int MaxCollectablesOnScene()
-    {
-        int result = 0;
-
-        foreach(var item in _collectablesConfig.Collectables)
-        {
-            result += item.MaxItemsOnScene;
-        }
-
-        return result;
-    }
-
     public Collectable Create(string name, Vector3 position)
     {
         var collectable = _pool.GetCollectable();
         collectable.transform.position = position + new Vector3(0, _collectableDatasDict[name].OffsetY, 0);
-        collectable.SetPool(_pool);//-----
+        collectable.SetPool(_pool);
         collectable.SetData(_collectableDatasDict[name]);
-        //collectable.State(true);
         return collectable;
     }
 }

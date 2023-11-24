@@ -7,8 +7,9 @@ using System.Collections.Generic;
 
 public class CollectablesGenerator : MonoBehaviour
 {
+
     [SerializeField]
-    public CollectableID collectableID;
+    private List<SpawnCollectablesConfig> _generateParams;
 
     private int _counter = 0;
     private Dictionary<string, int> _collectablesCurrentAmount = new Dictionary<string, int>();
@@ -19,11 +20,18 @@ public class CollectablesGenerator : MonoBehaviour
     [SerializeField]
     private MapGenerator _mapGenerator;
 
+    private int _maxCollectablesOnScene;
+
     private void Start()
     {   
+        foreach(var value in _generateParams)
+        {
+            _maxCollectablesOnScene += value.MaxItemSpawned;
+        }
+
         for(int i = 0; i < CollectableFactory.Instance.CollectablesConfig.Collectables.Count; i++)
         {
-            _collectablesCurrentAmount.Add(CollectableFactory.Instance.CollectablesConfig.Collectables[i].Name, 0);
+            _collectablesCurrentAmount.Add(_generateParams[i].Name, 0);
         }
         
         StartCoroutine(SpawnRoutine());
@@ -40,26 +48,16 @@ public class CollectablesGenerator : MonoBehaviour
         collectable.ReturnToPool();
     }
 
-    private float GetCollectableRespawnTime(string name)
-    {
-        foreach(var data in CollectableFactory.Instance.CollectablesConfig.Collectables)
-        {
-            if(data.Name == name)
-                return data.RespawnTime;
-        }
-
-        throw new ArgumentException("Wrong Collectable name input");
-    }
-
     private IEnumerator SpawnRoutine()
     {
         Tile tile;
         int rnd;
-        var collectableDataAmount = CollectableFactory.Instance.CollectablesConfig.Collectables.Count;
+        var amount = _generateParams.Count;
+        //var collectableDataAmount = CollectableFactory.Instance.CollectablesConfig.Collectables.Count;
 
         while (true)
         {
-            if(_counter >= CollectableFactory.Instance.MaxCollectablesOnScene())
+            if(_counter >= _maxCollectablesOnScene)
             {
                 yield return null;
             }
@@ -70,21 +68,21 @@ public class CollectablesGenerator : MonoBehaviour
                     tile = _mapGenerator.GetWalkable();
                 } while (tile.IsOccupied);
 
-                rnd = Random.Range(0, collectableDataAmount);
+                rnd = Random.Range(0, _generateParams.Count);
 
-                for (int i = 0; i < collectableDataAmount; i++)
+                for (int i = 0; i < _generateParams.Count; i++)
                 {
-                    rnd = (rnd + i) % collectableDataAmount;
-                    if (_collectablesCurrentAmount.TryGetValue(CollectableFactory.Instance.CollectablesConfig.Collectables[rnd].Name, out int currentValue) &&
-                        currentValue < CollectableFactory.Instance.CollectablesConfig.Collectables[rnd].MaxItemsOnScene)
+                    rnd = (rnd + i) % amount;
+                    if (_collectablesCurrentAmount.TryGetValue(_generateParams[rnd].Name, out int currentValue) &&
+                        currentValue < _generateParams[rnd].MaxItemSpawned)
                     {
                         break;
                     }
                 }
 
 
-                var name = CollectableFactory.Instance.CollectablesConfig.Collectables[rnd].Name;               
-                yield return new WaitForSeconds(GetCollectableRespawnTime(name));
+                var name = _generateParams[rnd].Name;               
+                yield return new WaitForSeconds(_generateParams[rnd].RespawnTime);
                 SetCollectableSpawn(name, tile);
             }
         }

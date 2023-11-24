@@ -33,7 +33,6 @@ public class CollectableIDPropertyDrawer : PropertyDrawer
 
             _strings = list.ToArray();
         }
-
         
         var stringIndex = GetIndex(stringValue, _strings);
         stringIndex = EditorGUI.Popup(pathRect, stringIndex, _strings);
