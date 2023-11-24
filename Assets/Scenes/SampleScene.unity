@@ -326,8 +326,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326d59bbdbf5cfe40afdaed8394eff43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collectableID:
+    value: 
   _collectablesAccounting: {fileID: 1739427482}
-  _maxOrbs: 15
   _mapGenerator: {fileID: 1720046093}
 --- !u!4 &1117768407
 Transform:

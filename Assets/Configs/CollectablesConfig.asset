@@ -33,3 +33,13 @@ MonoBehaviour:
     _size: {x: 0.45, y: 0.45, z: 0.45}
     _material: {fileID: 2100000, guid: 7173f4ac477438f4f858520a7a4f5600, type: 2}
     _mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  - _maxItemsOnScene: 2
+    _respawnTime: 1
+    _type: 0
+    _expiriece: 40
+    _gold: 0
+    _offsetY: 1
+    _name: MediumExpOrb
+    _size: {x: 0.45, y: 0.45, z: 0.45}
+    _material: {fileID: 2100000, guid: 7173f4ac477438f4f858520a7a4f5600, type: 2}
+    _mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}

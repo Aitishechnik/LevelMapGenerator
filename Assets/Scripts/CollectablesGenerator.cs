@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 public class CollectablesGenerator : MonoBehaviour
 {
+    [SerializeField]
+    public CollectableID collectableID;
+
     private int _counter = 0;
     private Dictionary<string, int> _collectablesCurrentAmount = new Dictionary<string, int>();
 
