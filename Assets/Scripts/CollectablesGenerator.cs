@@ -72,10 +72,11 @@ public class CollectablesGenerator : MonoBehaviour
 
                 for (int i = 0; i < _generateParams.Count; i++)
                 {
-                    rnd = (rnd + i) % amount;
-                    if (_collectablesCurrentAmount.TryGetValue(_generateParams[rnd].Name, out int currentValue) &&
-                        currentValue < _generateParams[rnd].MaxItemSpawned)
+                    var index = (rnd + i) % amount;
+                    if (_collectablesCurrentAmount.TryGetValue(_generateParams[index].Name, out int currentValue) &&
+                        currentValue < _generateParams[index].MaxItemSpawned)
                     {
+                        rnd = index;
                         break;
                     }
                 }
