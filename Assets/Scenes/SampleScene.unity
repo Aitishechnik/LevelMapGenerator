@@ -329,11 +329,11 @@ MonoBehaviour:
   _generateParams:
   - collectableID:
       value: LesserExpOrb
-    _maxItemsSpawned: 3
+    _maxItemsSpawned: 5
     _respawnTime: 1
   - collectableID:
       value: MediumExpOrb
-    _maxItemsSpawned: 2
+    _maxItemsSpawned: 3
     _respawnTime: 1
   - collectableID:
       value: LargeExpOrb

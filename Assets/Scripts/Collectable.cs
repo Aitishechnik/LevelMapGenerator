@@ -30,14 +30,8 @@ public class Collectable : MonoBehaviour
         transform.localScale = ThisCollectableData.Size;
         _meshRenderer.material = ThisCollectableData.Material;
         _meshFilter.mesh = ThisCollectableData.Mesh;
-        //State(false);
     }
 
-    /*public void State(bool state)
-    {
-        _collider.enabled = state;
-        _meshRenderer.enabled = state;
-    }*/
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
