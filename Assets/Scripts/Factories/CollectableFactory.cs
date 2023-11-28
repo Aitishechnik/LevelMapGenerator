@@ -32,7 +32,7 @@ public class CollectableFactory : MonoBehaviour
 
     public Collectable Create(string name, Vector3 position)
     {
-        var collectable = _pool.GetCollectable();
+        var collectable = _pool.GetObject();
         collectable.transform.position = position + new Vector3(0, _collectableDatasDict[name].OffsetY, 0);
         collectable.SetPool(_pool);
         collectable.SetData(_collectableDatasDict[name]);

@@ -17,8 +17,4 @@ public class SpawnCollectablesConfig
     [SerializeField]
     private int _respawnTime;
     public int RespawnTime => _respawnTime;
-
-    public KeyValuePair<string, int> CollectableMaxItems => new KeyValuePair<string, int>(collectableID.Value, _maxItemsSpawned);
-
-    public KeyValuePair<string, int> CollectableRespawnTime => new KeyValuePair<string, int>(collectableID.Value, _respawnTime);
 }

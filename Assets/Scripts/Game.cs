@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
     private CollectablesAccounting _collectablesAccounting;
     public CollectablesAccounting CollectablesAccounting => _collectablesAccounting;
 
+    public Player Player { get; private set; } = new Player();
     public static Game Instance { get; private set; }
 
     private void Awake()

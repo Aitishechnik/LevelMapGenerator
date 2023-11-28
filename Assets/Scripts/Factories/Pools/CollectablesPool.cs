@@ -2,35 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectablesPool
+public class CollectablesPool : Pool<Collectable>
 {
-    private Transform _objectTransform;
-    private Collectable _collectablePrefab;
-    private List<Collectable> _poolsObjects = new List<Collectable>();
-    public CollectablesPool(Transform poolsParent, Collectable prefab, int amount = 10)
+    public CollectablesPool(Transform poolsParent, Collectable prefab) : base(poolsParent, prefab) { }
+
+    protected override Collectable CreateObject()
     {
-        _objectTransform = poolsParent;
-        _collectablePrefab = prefab;
-        for (int i = 0; i < amount;  i++)
-        {
-            CreateObject();
-        }
-    }
-    private Collectable CreateObject()
-    {
-        var collectable = GameObject.Instantiate(_collectablePrefab, _objectTransform);
+        var collectable = GameObject.Instantiate(_prefab, _objectTransform);
         collectable.gameObject.SetActive(false);
         collectable.SetPool(this);
         _poolsObjects.Add(collectable);
         return collectable;
     }
 
-    public Collectable GetCollectable()
+    public override Collectable GetObject()
     {
         if(_poolsObjects.Count == 0)
         {
-            CreateObject();
-            
+            CreateObject();            
         }
 
         var collectable = _poolsObjects[_poolsObjects.Count - 1];
@@ -39,10 +28,10 @@ public class CollectablesPool
         return collectable;
     }
 
-    public void Return(Collectable collectable)
+    public override void Return(Collectable obj)
     {
-        collectable.gameObject.SetActive(false);
-        _poolsObjects.Add(collectable);
-        collectable.transform.parent = _objectTransform;
+        obj.gameObject.SetActive(false);
+        _poolsObjects.Add(obj);
+        obj.transform.parent = _objectTransform;
     }
 }

@@ -15,13 +15,15 @@ public class UnitsConfig : ScriptableObject
 [Serializable]
 public class UnitData
 {
+    public UnitController Controller { get; set; }
+
     [SerializeField]
     private float _offsetY =1f;   
     public float OffsetY => _offsetY;
 
     [SerializeField]
-    private string _type;
-    public string Type => _type;
+    private string _name;
+    public string Name => _name;
 
     [SerializeField]
     private bool _isControlable;

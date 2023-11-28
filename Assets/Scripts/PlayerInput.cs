@@ -6,8 +6,23 @@ public class PlayerInput : MonoBehaviour
     [SerializeField]
     private Camera _mainCamera;
 
-    [SerializeField]
+    private Unit _unit;
+
     private PlayerUnitController _playerUnitController;
+
+    public void SetCamera(Unit unit)
+    {
+        if (unit.ThisUnitData.IsControlable)
+        {
+            _unit = unit;
+            _playerUnitController = unit.ThisUnitData.Controller as PlayerUnitController;
+        }        
+    }
+
+    private void LateUpdate()
+    {
+        transform.position = _unit.transform.position;
+    }
 
     private void Update()
     {
@@ -21,7 +36,7 @@ public class PlayerInput : MonoBehaviour
                 if (tile != null)
                 {
                     if (tile != _playerUnitController.CurrentTarget)
-                        ClearAllDebugText?.Invoke(); //явл€етс€ ли подписка каждого тайла на event хорошей практикой или лучше делать в цикле?
+                        ClearAllDebugText?.Invoke();
                     tile.ProcessTileClick();
                 }
             }           

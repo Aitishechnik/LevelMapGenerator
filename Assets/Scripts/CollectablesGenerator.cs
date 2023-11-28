@@ -53,7 +53,6 @@ public class CollectablesGenerator : MonoBehaviour
         Tile tile;
         int rnd;
         var amount = _generateParams.Count;
-        //var collectableDataAmount = CollectableFactory.Instance.CollectablesConfig.Collectables.Count;
 
         while (true)
         {
@@ -84,11 +83,11 @@ public class CollectablesGenerator : MonoBehaviour
 
                 var name = _generateParams[rnd].Name;               
                 yield return new WaitForSeconds(_generateParams[rnd].RespawnTime);
-                SetCollectableSpawn(name, tile);
+                SpawnCollectable(name, tile);
             }
         }
     }
-    private void SetCollectableSpawn(string name, Tile tile)
+    private void SpawnCollectable(string name, Tile tile)
     {
         var collectable = CollectableFactory.Instance.Create(name, tile.transform.position);
         _collectablesCurrentAmount[name] += 1;
