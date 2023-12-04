@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class UnitFactory : MonoBehaviour
@@ -35,8 +34,8 @@ public class UnitFactory : MonoBehaviour
     }
 
     public Unit Create(string type, Tile tile, bool isControllable)
-    {                             
-        var unit = Instantiate(_prefabUnit);
+    {
+        var unit = _pool.GetObject();
 
         unit.ThisUnitData.Controller = isControllable ? new PlayerUnitController() : new EnemyUnitController();
         if (isControllable)

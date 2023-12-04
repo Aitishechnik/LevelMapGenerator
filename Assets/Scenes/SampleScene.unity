@@ -1007,7 +1007,7 @@ GameObject:
   - component: {fileID: 2129133739}
   - component: {fileID: 2129133738}
   m_Layer: 0
-  m_Name: EnemyGenerator
+  m_Name: UnitGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1025,8 +1025,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 089eb22604e23094bad6e35b569328ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _generateParams: []
-  _unit: {fileID: 0}
+  _generateParams:
+  - _unitID:
+      value: Hero
+    _isControlable: 1
+    _amount: 1
+  - _unitID:
+      value: Policeman
+    _isControlable: 0
+    _amount: 1
+  - _unitID:
+      value: Maniac
+    _isControlable: 0
+    _amount: 1
+  _unit: {fileID: 7198019413886224298, guid: b73bc0475b930a24d9de29c9ddb6a1cf, type: 3}
   _mapGenerator: {fileID: 1720046093}
 --- !u!4 &2129133739
 Transform:

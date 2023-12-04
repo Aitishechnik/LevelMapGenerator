@@ -7,7 +7,6 @@ public class UnitGenerator : MonoBehaviour
     [SerializeField]
     private List<SpawnUnitConfig> _generateParams;
 
-    private const int MAX_COUNT = 5;
     private const float RESPAWN_TIME = 1;
 
     [SerializeField]
@@ -16,44 +15,34 @@ public class UnitGenerator : MonoBehaviour
     [SerializeField]
     private MapGenerator _mapGenerator;
 
-    private int _unitsAmount = 0;
-
-    int _counter;
-
     private void Start()
     {
-        SetUnitsAmount();
         StartCoroutine(SpawnRoutine());
-    }
-
-    private void SetUnitsAmount()
-    {
-        foreach (var amount in _generateParams)
-        {
-            _unitsAmount += amount.Amount;
-        }
     }
 
     private IEnumerator SpawnRoutine()
     {
         Tile tile;
-
+        int _counter = 0;
 
         while (true)
         {
-            if (_counter >= _unitsAmount)
+            if (_counter >= _generateParams.Count)
             {
                 yield return null;
             }
             else
             {
-                do
+                for(int i = 0; i < _generateParams[_counter].Amount; i++)
                 {
-                    tile = _mapGenerator.GetWalkable();
-                } while (tile.IsOccupied);
+                    do
+                    {
+                        tile = _mapGenerator.GetWalkable();
+                    } while (tile.IsOccupied);
 
-                yield return new WaitForSeconds(RESPAWN_TIME);
-                SpawnUnit(_generateParams[_counter].Name, tile, _generateParams[_counter].IsControlable);
+                    yield return new WaitForSeconds(RESPAWN_TIME);
+                    SpawnUnit(_generateParams[_counter].Name, tile, _generateParams[_counter].IsControlable);
+                }
                 _counter++;
             }
         }
@@ -61,8 +50,8 @@ public class UnitGenerator : MonoBehaviour
 
     private void SpawnUnit(string name, Tile tile, bool isControllable)
     {
-        var spawnedUnit = Instantiate(_unit);
-        spawnedUnit.AttachToTile(tile);
-        spawnedUnit.SetData(UnitFactory.Instance.UnitDatasDict[name], isControllable);
+        /*var spawnedUnit = */UnitFactory.Instance.Create(name, tile, isControllable);
+        /*spawnedUnit.AttachToTile(tile);
+        spawnedUnit.SetData(UnitFactory.Instance.UnitDatasDict[name], isControllable);*/
     }
 }
