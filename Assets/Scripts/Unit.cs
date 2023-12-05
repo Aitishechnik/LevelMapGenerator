@@ -70,7 +70,7 @@ public class Unit : MonoBehaviour
         ThisUnitData = unitData;
         _meshFilter.mesh = ThisUnitData.Mesh;
         _meshRenderer.material = ThisUnitData.Material;
-        tag = ThisUnitData.IsControlable ? "Player" : "Untagged";
+        tag = isControllable ? "Player" : "Untagged";
     }
 
     public void MoveToTile(Tile tile, bool isTeleport = false)
@@ -140,7 +140,6 @@ public class Unit : MonoBehaviour
             Tile currentTile = queue.Dequeue(out float currentTilePriority);
 
             currentTile.GetFreeNeighbours(currentNeighbours);
-            //currentTile.DebugText.text = distance[currentTile].ToString();
             for (int i = 0; i < currentNeighbours.Count; i++)
             {
                 if (!visitedVertexes.Contains(currentNeighbours[i]))

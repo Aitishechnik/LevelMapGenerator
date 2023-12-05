@@ -6,22 +6,23 @@ public class PlayerInput : MonoBehaviour
     [SerializeField]
     private Camera _mainCamera;
 
+    [SerializeField]
+    private float _cameraYOffset;
+
     private Unit _unit;
 
     private PlayerUnitController _playerUnitController;
 
     public void SetCamera(Unit unit)
     {
-        if (unit.ThisUnitData.IsControlable)
-        {
-            _unit = unit;
-            _playerUnitController = unit.ThisUnitData.Controller as PlayerUnitController;
-        }        
+        _unit = unit;
+        _playerUnitController = unit.gameObject.GetComponent<PlayerUnitController>();
     }
 
     private void LateUpdate()
     {
-        transform.position = _unit.transform.position;
+        if (_unit != null)
+            transform.position = _unit.transform.position + new Vector3(0, _cameraYOffset, 0);
     }
 
     private void Update()

@@ -18,6 +18,11 @@ public class UnitFactory : MonoBehaviour
     [SerializeField]
     private UnitsConfig _unitsConfig;
 
+    [SerializeField]
+    private PlayerUnitController _playerUnitController;
+    [SerializeField]
+    private EnemyUnitController _enemyUnitController;
+
     private Dictionary<string, UnitData> _unitDatasDict = new Dictionary<string, UnitData>();
     public Dictionary<string, UnitData> UnitDatasDict => _unitDatasDict;
     private void Start()
@@ -37,9 +42,14 @@ public class UnitFactory : MonoBehaviour
     {
         var unit = _pool.GetObject();
 
-        unit.ThisUnitData.Controller = isControllable ? new PlayerUnitController() : new EnemyUnitController();
         if (isControllable)
+        {
+            unit.gameObject.GetComponent<EnemyUnitController>().enabled = false;
             _playerInput.SetCamera(unit);
+        }           
+        else
+            unit.gameObject.GetComponent<PlayerUnitController>().enabled = false;
+
         unit.MoveToTile(tile, true);
         unit.SetData(_unitDatasDict[type], isControllable);
         unit.AttachToTile(tile);

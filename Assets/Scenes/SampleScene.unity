@@ -123,61 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &134978617
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 134978619}
-  - component: {fileID: 134978618}
-  m_Layer: 0
-  m_Name: UnitGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &134978618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 134978617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 089eb22604e23094bad6e35b569328ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _generateParams:
-  - _unitID:
-      value: Hero
-    _isControlable: 1
-    _amount: 1
-  - _unitID:
-      value: Policeman
-    _isControlable: 0
-    _amount: 2
-  _unit: {fileID: 7198019413886224298, guid: b73bc0475b930a24d9de29c9ddb6a1cf, type: 3}
-  _mapGenerator: {fileID: 1720046093}
---- !u!4 &134978619
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 134978617}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.416485, y: 18.423203, z: -0.4627081}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &373042475
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,12 +624,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _distance: 1
   _tilesHeight: 0
-  _height: 30
-  _width: 30
+  _height: 50
+  _width: 50
   _groundTilesPotential: 1000
   _wallTilesPotential: 1000
   _wallMaxLength: 1000
-  _proceduralGeneration: 0
+  _proceduralGeneration: 1
   _fileAddress: MatrixMap.txt
 --- !u!4 &1720046094
 Transform:
@@ -825,6 +770,8 @@ MonoBehaviour:
   _mapGenerator: {fileID: 1720046093}
   _prefabUnit: {fileID: 7198019413886224298, guid: b73bc0475b930a24d9de29c9ddb6a1cf, type: 3}
   _unitsConfig: {fileID: 11400000, guid: 34b68337773487341ac707d2730fe9ec, type: 2}
+  _playerUnitController: {fileID: 0}
+  _enemyUnitController: {fileID: 0}
 --- !u!4 &1780384343
 Transform:
   m_ObjectHideFlags: 0
@@ -871,6 +818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 2087122649}
+  _cameraYOffset: 30
 --- !u!20 &2087122649
 Camera:
   m_ObjectHideFlags: 0
@@ -1031,13 +979,9 @@ MonoBehaviour:
     _isControlable: 1
     _amount: 1
   - _unitID:
-      value: Policeman
+      value: Civilian
     _isControlable: 0
-    _amount: 1
-  - _unitID:
-      value: Maniac
-    _isControlable: 0
-    _amount: 1
+    _amount: 2
   _unit: {fileID: 7198019413886224298, guid: b73bc0475b930a24d9de29c9ddb6a1cf, type: 3}
   _mapGenerator: {fileID: 1720046093}
 --- !u!4 &2129133739
@@ -1066,5 +1010,4 @@ SceneRoots:
   - {fileID: 1117768407}
   - {fileID: 2129133739}
   - {fileID: 1140689714}
-  - {fileID: 134978619}
   - {fileID: 2087122650}

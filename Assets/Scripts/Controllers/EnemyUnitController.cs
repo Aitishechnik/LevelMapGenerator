@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class EnemyUnitController : UnitController
 {
+
     private void Update()
     {
-        _unit.GoToTile(Game.Instance.Player.PlayerUnit.CurrentTile);
+        _unit.GoToTile(PlayerUnitController.playerPosition);
     }
 }

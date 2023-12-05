@@ -50,8 +50,6 @@ public class UnitGenerator : MonoBehaviour
 
     private void SpawnUnit(string name, Tile tile, bool isControllable)
     {
-        /*var spawnedUnit = */UnitFactory.Instance.Create(name, tile, isControllable);
-        /*spawnedUnit.AttachToTile(tile);
-        spawnedUnit.SetData(UnitFactory.Instance.UnitDatasDict[name], isControllable);*/
+        UnitFactory.Instance.Create(name, tile, isControllable);
     }
 }
