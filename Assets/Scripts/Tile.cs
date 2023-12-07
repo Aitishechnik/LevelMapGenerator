@@ -86,7 +86,7 @@ public class Tile : MonoBehaviour
         IsWalkable = _tileData.IsWalkable;        
     }
 
-    public static event Action<Tile> OnTileClick;
+    public event Action<Tile> OnTileClick;
 
     public void ProcessTileClick()
     {

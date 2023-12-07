@@ -6,10 +6,11 @@ public class UnitFactory : MonoBehaviour
     private UnitsPool _pool;
 
     [SerializeField]
-    PlayerInput _playerInput;
+    private UnitControllerHandler _unitControllerHandler;
 
     [SerializeField]
-    private MapGenerator _mapGenerator;
+    PlayerInput _playerInput;
+
     public static UnitFactory Instance { get; private set; }
 
     [SerializeField]
@@ -18,13 +19,8 @@ public class UnitFactory : MonoBehaviour
     [SerializeField]
     private UnitsConfig _unitsConfig;
 
-    [SerializeField]
-    private PlayerUnitController _playerUnitController;
-    [SerializeField]
-    private EnemyUnitController _enemyUnitController;
-
     private Dictionary<string, UnitData> _unitDatasDict = new Dictionary<string, UnitData>();
-    public Dictionary<string, UnitData> UnitDatasDict => _unitDatasDict;
+
     private void Start()
     {
         _pool = new UnitsPool(transform, _prefabUnit);
@@ -44,11 +40,16 @@ public class UnitFactory : MonoBehaviour
 
         if (isControllable)
         {
-            unit.gameObject.GetComponent<EnemyUnitController>().enabled = false;
-            _playerInput.SetCamera(unit);
-        }           
+            Game.Instance.Player.SetPlayerUnit(unit);
+            var playerUnitController = new PlayerUnitController(unit);
+            _unitControllerHandler.Add(playerUnitController);
+            _playerInput.SetUnit(unit, playerUnitController);
+        }
         else
-            unit.gameObject.GetComponent<PlayerUnitController>().enabled = false;
+        {
+            var enemyUnitController = new EnemyUnitController(unit);
+            _unitControllerHandler.Add(enemyUnitController);
+        }
 
         unit.MoveToTile(tile, true);
         unit.SetData(_unitDatasDict[type], isControllable);

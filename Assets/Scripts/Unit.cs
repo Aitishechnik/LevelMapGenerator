@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour 
 {
-    public const float TRANSITION_TIME = 0.5f;
+    private float _movingSpeed = 0.5f;
 
+    private int _hp = 1;
+    public int HP => _hp;
     public Tile CurrentTile { get; private set; }
 
     private UnitsPool _pool;
@@ -19,6 +21,8 @@ public class Unit : MonoBehaviour
     private MeshFilter _meshFilter;
 
     public UnitData ThisUnitData { get; private set; }
+
+    public Stats ThisUnitStats { get; private set; }
 
     public Tile CurrentTarget { get; private set; }
     public bool IsMoving { get; private set; }
@@ -41,7 +45,7 @@ public class Unit : MonoBehaviour
         Vector3 targetPosition = targetTile.transform.position + new Vector3(0, ThisUnitData.OffsetY, 0);
 
         float elapsedTime = 0f;
-
+        
         while (elapsedTime < moveSpeed)
         {
             float t = elapsedTime / moveSpeed;
@@ -73,6 +77,13 @@ public class Unit : MonoBehaviour
         tag = isControllable ? "Player" : "Untagged";
     }
 
+    public void SetStats(Stats stats)
+    {
+        ThisUnitStats = stats;
+        _movingSpeed = ThisUnitStats.MovingSpeed > 0 ? ThisUnitStats.MovingSpeed : _movingSpeed;
+        _hp = ThisUnitStats.HP > 0 ? ThisUnitStats.HP : _hp;
+    }
+
     public void MoveToTile(Tile tile, bool isTeleport = false)
     {
         if (IsMoving)
@@ -96,7 +107,7 @@ public class Unit : MonoBehaviour
         {
             if (CurrentTile.IsNeighbour(tile))
             {
-                StartCoroutine(MoveSmoothly(tile, TRANSITION_TIME));
+                StartCoroutine(MoveSmoothly(tile, _movingSpeed*tile.MoveCost));
             }
             else
             {
@@ -220,7 +231,7 @@ public class Unit : MonoBehaviour
                 route.Enqueue(neighbours[minIndex]);
                 pathCost = minCost;
                 currentStep = neighbours[minIndex];
-                currentStep.DebugText.text = pathCost.ToString();
+                currentStep.DebugText.text = pathCost.ToString("F1");
             }
         }
 

@@ -13,10 +13,10 @@ public class PlayerInput : MonoBehaviour
 
     private PlayerUnitController _playerUnitController;
 
-    public void SetCamera(Unit unit)
+    public void SetUnit(Unit unit, PlayerUnitController playerUnitController)
     {
         _unit = unit;
-        _playerUnitController = unit.gameObject.GetComponent<PlayerUnitController>();
+        _playerUnitController = playerUnitController;
     }
 
     private void LateUpdate()

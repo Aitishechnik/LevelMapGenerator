@@ -1,15 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using LevelMapGenerator;
+using System;
+using Random = UnityEngine.Random;
 
 public class MapGenerator : MonoBehaviour
 {
     private List<Tile> _tiles = new List<Tile>();
-    private static List<Tile> _walkableTiles = new List<Tile>();
+    private List<Tile> _walkableTiles = new List<Tile>();
     [SerializeField]
     private float _distance = 1.0f;
     [SerializeField]
     private float _tilesHeight = 0f;
+
+    public event Action<Tile> OnTileClick;
 
     [SerializeField]
     private int _height = 10;
@@ -37,6 +41,11 @@ public class MapGenerator : MonoBehaviour
         GenerteTilesField();
     }
 
+    private void ProccesTileClick(Tile tile)
+    {
+        OnTileClick?.Invoke(tile);
+    }
+
     private void GenerteTilesField()
     {
         for(int i = 0; i < _matrixMap.Matrix.GetLength(0);  i++)
@@ -44,7 +53,9 @@ public class MapGenerator : MonoBehaviour
             for(int j = 0; j < _matrixMap.Matrix.GetLength(1); j++)
             {
                 var pos = new Vector3(transform.position.x + (j * _distance), _tilesHeight, transform.position.z + (i * _distance));
-                _tiles.Add(TileFactory.Instance.Create(_matrixMap.Matrix[i, j], pos));
+                var newTile = TileFactory.Instance.Create(_matrixMap.Matrix[i, j], pos);
+                newTile.OnTileClick += ProccesTileClick;
+                _tiles.Add(newTile);
                 if (_tiles[_tiles.Count - 1].IsWalkable)
                 {
                     _walkableTiles.Add(_tiles[_tiles.Count - 1]);

@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class EnemyUnitController : UnitController
 {
-
-    private void Update()
+    public EnemyUnitController(Unit unit) : base(unit)
     {
-        _unit.GoToTile(PlayerUnitController.playerPosition);
+
+    }
+
+    public override void ManualUpdate()
+    {
+        _unit.GoToTile(Game.Instance.Player.PlayerPosition);
     }
 }

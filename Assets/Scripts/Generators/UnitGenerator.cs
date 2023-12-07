@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UnitGenerator : MonoBehaviour
 {
@@ -41,15 +42,22 @@ public class UnitGenerator : MonoBehaviour
                     } while (tile.IsOccupied);
 
                     yield return new WaitForSeconds(RESPAWN_TIME);
-                    SpawnUnit(_generateParams[_counter].Name, tile, _generateParams[_counter].IsControlable);
+                    var unit = SpawnUnit(_generateParams[_counter].Name, tile, _generateParams[_counter].IsControlable);
+                    SetStats(_generateParams[_counter].StatusConfigIndex, unit);
                 }
                 _counter++;
             }
         }
     }
 
-    private void SpawnUnit(string name, Tile tile, bool isControllable)
+    private Unit SpawnUnit(string name, Tile tile, bool isControllable)
     {
-        UnitFactory.Instance.Create(name, tile, isControllable);
+        return UnitFactory.Instance.Create(name, tile, isControllable);
+
+    }
+
+    private void SetStats(int statsConfigIndex, Unit unit)
+    {
+        unit.SetStats(UnitStatsFactory.Instance.StatsConfig.Stats[statsConfigIndex]);
     }
 }

@@ -2,8 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitController : MonoBehaviour
+public abstract class UnitController
 {
-    [SerializeField]
     protected Unit _unit;
+
+    public UnitController(Unit unit)
+    {
+        _unit = unit;
+    }
+
+    public abstract void ManualUpdate();
 }

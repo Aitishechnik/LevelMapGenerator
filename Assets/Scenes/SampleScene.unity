@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &162741522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 162741523}
+  - component: {fileID: 162741524}
+  m_Layer: 0
+  m_Name: UnitStatsFactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &162741523
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162741522}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1112024648}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &162741524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162741522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47600dd88c86e45409656a556a5bca22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _statsConfig: {fileID: 11400000, guid: 354093ab0c272904baff41f6027d7c5d, type: 2}
 --- !u!1 &373042475
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,13 +333,14 @@ Transform:
   m_GameObject: {fileID: 1112024647}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 373042477}
   - {fileID: 1780384343}
   - {fileID: 1740701129}
+  - {fileID: 162741523}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1117768405
@@ -702,7 +748,7 @@ GameObject:
   - component: {fileID: 1740701129}
   - component: {fileID: 1740701130}
   m_Layer: 0
-  m_Name: CollectablesFatory
+  m_Name: CollectablesFactory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -766,12 +812,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c548c871ad53d841a84a92a7b5f2901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _unitControllerHandler: {fileID: 2119089931}
   _playerInput: {fileID: 2087122648}
-  _mapGenerator: {fileID: 1720046093}
   _prefabUnit: {fileID: 7198019413886224298, guid: b73bc0475b930a24d9de29c9ddb6a1cf, type: 3}
   _unitsConfig: {fileID: 11400000, guid: 34b68337773487341ac707d2730fe9ec, type: 2}
-  _playerUnitController: {fileID: 0}
-  _enemyUnitController: {fileID: 0}
 --- !u!4 &1780384343
 Transform:
   m_ObjectHideFlags: 0
@@ -896,6 +940,7 @@ GameObject:
   - component: {fileID: 2119089929}
   - component: {fileID: 2119089928}
   - component: {fileID: 2119089930}
+  - component: {fileID: 2119089931}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -925,7 +970,7 @@ Transform:
   m_GameObject: {fileID: 2119089927}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -944,6 +989,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collectablesAccounting: {fileID: 1739427482}
+  _mapGenerator: {fileID: 1720046093}
+--- !u!114 &2119089931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119089927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6fe7f06ed4ff654fb1437b49bde893b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2129133737
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,10 +1036,17 @@ MonoBehaviour:
       value: Hero
     _isControlable: 1
     _amount: 1
+    _statusConfigIndex: 2
+  - _unitID:
+      value: Maniac
+    _isControlable: 0
+    _amount: 10
+    _statusConfigIndex: 0
   - _unitID:
       value: Civilian
     _isControlable: 0
-    _amount: 2
+    _amount: 5
+    _statusConfigIndex: 1
   _unit: {fileID: 7198019413886224298, guid: b73bc0475b930a24d9de29c9ddb6a1cf, type: 3}
   _mapGenerator: {fileID: 1720046093}
 --- !u!4 &2129133739

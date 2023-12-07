@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class PlayerUnitController : UnitController
 {
-    public Tile CurrentTarget => _unit.CurrentTarget;
-    public static Tile playerPosition;
-    private void Start()
+    public Tile CurrentTarget => _unit.CurrentTarget;    
+
+    public PlayerUnitController(Unit unit) : base(unit)
     {
-        StartCoroutine(UpdatePlayerPositionRoutine());
-        Tile.OnTileClick += _unit.GoToTile;
+        Game.Instance.MapGenerator.OnTileClick += _unit.GoToTile;
     }
 
-    private IEnumerator UpdatePlayerPositionRoutine()
+    public override void ManualUpdate()
     {
-        while (true)
-        {
-            playerPosition = _unit.CurrentTile;
-            yield return null;
-        }
+        
     }
 }

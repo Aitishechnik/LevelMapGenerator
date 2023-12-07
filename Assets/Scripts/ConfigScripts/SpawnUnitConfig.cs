@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,4 +18,8 @@ public class SpawnUnitConfig
     [SerializeField]
     private int _amount;
     public int Amount => _isControlable ? 1 : _amount;
+
+    [SerializeField]
+    private int _statusConfigIndex;
+    public int StatusConfigIndex => _statusConfigIndex;
 }
