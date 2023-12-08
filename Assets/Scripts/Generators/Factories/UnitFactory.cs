@@ -53,6 +53,7 @@ public class UnitFactory : MonoBehaviour
 
         unit.MoveToTile(tile, true);
         unit.SetData(_unitDatasDict[type], isControllable);
+        unit.SetStats(_unitDatasDict[type].Stats);
         unit.AttachToTile(tile);
         return unit;
     }

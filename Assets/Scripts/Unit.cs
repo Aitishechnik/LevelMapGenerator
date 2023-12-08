@@ -4,12 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Unit : MonoBehaviour 
+public class Unit : MonoBehaviour, IDamagable
 {
-    private float _movingSpeed = 0.5f;
-
-    private int _hp = 1;
-    public int HP => _hp;
     public Tile CurrentTile { get; private set; }
 
     private UnitsPool _pool;
@@ -22,7 +18,7 @@ public class Unit : MonoBehaviour
 
     public UnitData ThisUnitData { get; private set; }
 
-    public Stats ThisUnitStats { get; private set; }
+    public StatsData ThisUnitStats { get; private set; }
 
     public Tile CurrentTarget { get; private set; }
     public bool IsMoving { get; private set; }
@@ -74,14 +70,13 @@ public class Unit : MonoBehaviour
         ThisUnitData = unitData;
         _meshFilter.mesh = ThisUnitData.Mesh;
         _meshRenderer.material = ThisUnitData.Material;
-        tag = isControllable ? "Player" : "Untagged";
+        tag = isControllable ? Tags.PLAYER : Tags.ENEMY;
     }
 
-    public void SetStats(Stats stats)
+    public void SetStats(StatsData stats)
     {
         ThisUnitStats = stats;
-        _movingSpeed = ThisUnitStats.MovingSpeed > 0 ? ThisUnitStats.MovingSpeed : _movingSpeed;
-        _hp = ThisUnitStats.HP > 0 ? ThisUnitStats.HP : _hp;
+        ThisUnitStats.SetHP(ThisUnitStats.HP > 0 ? ThisUnitStats.HP : 1);
     }
 
     public void MoveToTile(Tile tile, bool isTeleport = false)
@@ -107,7 +102,7 @@ public class Unit : MonoBehaviour
         {
             if (CurrentTile.IsNeighbour(tile))
             {
-                StartCoroutine(MoveSmoothly(tile, _movingSpeed*tile.MoveCost));
+                StartCoroutine(MoveSmoothly(tile, ThisUnitStats.MovingSpeed*tile.MoveCost));
             }
             else
             {
@@ -236,5 +231,11 @@ public class Unit : MonoBehaviour
         }
 
         return route;
+    }
+
+    public void ReceiveDamage(Damage damage)
+    {
+        ThisUnitStats.ReceiveDamage(damage);
+        Debug.Log($"{gameObject.tag} HP: {ThisUnitStats.HP}");
     }
 }

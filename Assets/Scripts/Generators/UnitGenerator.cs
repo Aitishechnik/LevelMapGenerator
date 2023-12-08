@@ -43,7 +43,6 @@ public class UnitGenerator : MonoBehaviour
 
                     yield return new WaitForSeconds(RESPAWN_TIME);
                     var unit = SpawnUnit(_generateParams[_counter].Name, tile, _generateParams[_counter].IsControlable);
-                    SetStats(_generateParams[_counter].StatusConfigIndex, unit);
                 }
                 _counter++;
             }
@@ -53,11 +52,5 @@ public class UnitGenerator : MonoBehaviour
     private Unit SpawnUnit(string name, Tile tile, bool isControllable)
     {
         return UnitFactory.Instance.Create(name, tile, isControllable);
-
-    }
-
-    private void SetStats(int statsConfigIndex, Unit unit)
-    {
-        unit.SetStats(UnitStatsFactory.Instance.StatsConfig.Stats[statsConfigIndex]);
     }
 }

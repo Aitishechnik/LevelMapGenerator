@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UnitsConfig", menuName = "Configs/UnitsConfig")]
@@ -30,4 +31,8 @@ public class UnitData
     [SerializeField]
     private Material _material;
     public Material Material => _material;
+
+    [SerializeField]
+    private StatsData _stats;
+    public StatsData Stats => _stats;
 }
