@@ -67,6 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77a19e71a53bf024bb7dccfa54c22946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tageToCollide:
+    value: Player
   _meshRenderer: {fileID: 4737505384262512890}
   _meshFilter: {fileID: 5175698701926231853}
   _collider: {fileID: 6907002690263256591}

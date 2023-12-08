@@ -17,6 +17,10 @@ public class UnitsConfig : ScriptableObject
 public class UnitData
 {
     [SerializeField]
+    private TagID _tagID;
+    public string Tag => _tagID.Value;
+
+    [SerializeField]
     private float _offsetY =1f;   
     public float OffsetY => _offsetY;
 
@@ -35,4 +39,6 @@ public class UnitData
     [SerializeField]
     private StatsData _stats;
     public StatsData Stats => _stats;
+
+    
 }

@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
+    [SerializeField]
+    private TagID _tageToCollide;
+
     private CollectablesPool _pool;
 
     [SerializeField]
@@ -34,7 +37,7 @@ public class Collectable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Tags.PLAYER))
+        if (other.CompareTag(_tageToCollide.Value))
             Collect();
     }
 

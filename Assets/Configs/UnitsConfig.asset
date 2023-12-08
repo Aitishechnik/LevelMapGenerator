@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: UnitsConfig
   m_EditorClassIdentifier: 
   _units:
-  - _offsetY: 1
+  - _tagID:
+      value: Player
+    _offsetY: 1
     _name: Hero
     _mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     _material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
@@ -21,7 +23,9 @@ MonoBehaviour:
       _movingSpeed: 0.2
       _hp: 100
       _invulnerabiltyPeriod: 1
-  - _offsetY: 5
+  - _tagID:
+      value: Enemy
+    _offsetY: 5
     _name: Policeman
     _mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
     _material: {fileID: 2100000, guid: 636c3afc29803684096039174daffa97, type: 2}
@@ -29,7 +33,9 @@ MonoBehaviour:
       _movingSpeed: 0.65
       _hp: 30
       _invulnerabiltyPeriod: 0.3
-  - _offsetY: 1
+  - _tagID:
+      value: Enemy
+    _offsetY: 1
     _name: Civilian
     _mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
     _material: {fileID: 2100000, guid: c7ab97818d7c52f4e97d389a33d41130, type: 2}
@@ -37,7 +43,9 @@ MonoBehaviour:
       _movingSpeed: 0.5
       _hp: 1
       _invulnerabiltyPeriod: 0.3
-  - _offsetY: 1
+  - _tagID:
+      value: Enemy
+    _offsetY: 1
     _name: Maniac
     _mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     _material: {fileID: 2100000, guid: cfcba87e986de7f43b9939e90f6c0d84, type: 2}

@@ -70,7 +70,7 @@ public class Unit : MonoBehaviour, IDamagable
         ThisUnitData = unitData;
         _meshFilter.mesh = ThisUnitData.Mesh;
         _meshRenderer.material = ThisUnitData.Material;
-        tag = isControllable ? Tags.PLAYER : Tags.ENEMY;
+        tag = ThisUnitData.Tag;
     }
 
     public void SetStats(StatsData stats)
