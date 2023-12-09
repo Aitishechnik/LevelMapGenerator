@@ -8,12 +8,12 @@ public class DamageSource : MonoBehaviour
     private int _damageValue = 1;
 
     [SerializeField]
-    private List<string> tags = new List<string>();
+    private List<TagID> tags = new List<TagID>();
     private void OnTriggerStay(Collider other)
     {
         foreach (var tag in tags)
         {
-            if (other.CompareTag(tag))
+            if (other.CompareTag(tag.Value))
             {
                 var targetComponents = other.gameObject.GetComponents<IDamagable>();
                 foreach (var targetComponent in targetComponents)

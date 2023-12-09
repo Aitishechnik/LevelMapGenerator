@@ -28,7 +28,7 @@ public class UnitGenerator : MonoBehaviour
 
         while (true)
         {
-            if (_counter >= _generateParams.Count)
+            if (_counter >= _generateParams.Count) //изменить механизм вызова. общее число юнитов и сравнение по очереди (какого типа не хватает)
             {
                 yield return null;
             }

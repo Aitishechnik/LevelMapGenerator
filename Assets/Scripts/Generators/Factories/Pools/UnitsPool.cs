@@ -22,7 +22,7 @@ public class UnitsPool : Pool<Unit>
     {
         obj.gameObject.SetActive(false);
         _poolsObjects.Add(obj);
-        obj.transform.parent = _objectTransform;
+        obj.transform.position = _objectTransform.position;
     }
 
     protected override Unit CreateObject()

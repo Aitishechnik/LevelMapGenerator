@@ -40,5 +40,7 @@ public class UnitData
     private StatsData _stats;
     public StatsData Stats => _stats;
 
-    
+    [SerializeField]
+    private ProjectileRotator _projectileRotator;
+    public ProjectileRotator ProjectileRotator => _projectileRotator;
 }

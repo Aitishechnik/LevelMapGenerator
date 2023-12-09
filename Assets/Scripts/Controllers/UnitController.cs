@@ -9,6 +9,12 @@ public abstract class UnitController
     public UnitController(Unit unit)
     {
         _unit = unit;
+        unit.OnUnitDie += OnDie;
+    }
+
+    private void OnDie()
+    {
+        Game.Instance.UnitControllerHandler.Remove(this);
     }
 
     public abstract void ManualUpdate();

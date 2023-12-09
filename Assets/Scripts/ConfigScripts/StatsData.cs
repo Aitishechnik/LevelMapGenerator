@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class StatsData : IDamagable
+public class StatsData
 {
     [SerializeField]
     [Range(0.1f,1)]
@@ -16,20 +16,5 @@ public class StatsData : IDamagable
 
     [SerializeField]
     private float _invulnerabiltyPeriod = 1f;
-
-    private float _nextDamageTime;
-
-    public void SetHP(int minValue)
-    {
-        _hp = minValue;
-    }
-
-    public void ReceiveDamage(Damage damage)
-    {
-        if (Time.time < _nextDamageTime)
-            return;
-
-        _hp -= damage.Value;
-        _nextDamageTime = Time.time + _invulnerabiltyPeriod;
-    }
+    public float InvulnerabiltyPeriod => _invulnerabiltyPeriod;
 }

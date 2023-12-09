@@ -115,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damageValue: 1
   tags:
-  - Player
+  - value: Player
 --- !u!136 &4099401141017257428
 CapsuleCollider:
   m_ObjectHideFlags: 0

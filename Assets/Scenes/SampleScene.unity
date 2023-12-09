@@ -766,7 +766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c548c871ad53d841a84a92a7b5f2901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitControllerHandler: {fileID: 2119089931}
   _playerInput: {fileID: 2087122648}
   _prefabUnit: {fileID: 7198019413886224298, guid: b73bc0475b930a24d9de29c9ddb6a1cf, type: 3}
   _unitsConfig: {fileID: 11400000, guid: 34b68337773487341ac707d2730fe9ec, type: 2}
@@ -944,6 +943,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collectablesAccounting: {fileID: 1739427482}
   _mapGenerator: {fileID: 1720046093}
+  _unitControllerHandler: {fileID: 2119089931}
 --- !u!114 &2119089931
 MonoBehaviour:
   m_ObjectHideFlags: 0

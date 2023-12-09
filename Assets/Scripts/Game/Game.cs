@@ -13,6 +13,10 @@ public class Game : MonoBehaviour
 
     public MapGenerator MapGenerator => _mapGenerator;
 
+    [SerializeField]
+    private UnitControllerHandler _unitControllerHandler;
+    public UnitControllerHandler UnitControllerHandler => _unitControllerHandler;
+
     public Player Player { get; private set; } = new Player();
     public CollectablesAccounting CollectablesAccounting => _collectablesAccounting;
     public static Game Instance { get; private set; }

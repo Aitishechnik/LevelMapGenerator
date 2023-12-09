@@ -5,8 +5,7 @@ public class UnitFactory : MonoBehaviour
 {
     private UnitsPool _pool;
 
-    [SerializeField]
-    private UnitControllerHandler _unitControllerHandler;
+    
 
     [SerializeField]
     PlayerInput _playerInput;
@@ -42,13 +41,13 @@ public class UnitFactory : MonoBehaviour
         {
             Game.Instance.Player.SetPlayerUnit(unit);
             var playerUnitController = new PlayerUnitController(unit);
-            _unitControllerHandler.Add(playerUnitController);
+            Game.Instance.UnitControllerHandler.Add(playerUnitController);
             _playerInput.SetUnit(unit, playerUnitController);
         }
         else
         {
             var enemyUnitController = new EnemyUnitController(unit);
-            _unitControllerHandler.Add(enemyUnitController);
+            Game.Instance.UnitControllerHandler.Add(enemyUnitController);
         }
 
         unit.MoveToTile(tile, true);

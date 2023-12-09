@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 public class Unit : MonoBehaviour, IDamagable
@@ -18,10 +19,12 @@ public class Unit : MonoBehaviour, IDamagable
 
     public UnitData ThisUnitData { get; private set; }
 
-    public StatsData ThisUnitStats { get; private set; }
+    public Stats ThisUnitStats { get; private set; } = new Stats();
 
     public Tile CurrentTarget { get; private set; }
     public bool IsMoving { get; private set; }
+
+    private Coroutine _routeCoroutineHandler;
 
     public void SetPool(UnitsPool pool)
     {
@@ -71,11 +74,17 @@ public class Unit : MonoBehaviour, IDamagable
         _meshFilter.mesh = ThisUnitData.Mesh;
         _meshRenderer.material = ThisUnitData.Material;
         tag = ThisUnitData.Tag;
+        if(ThisUnitData.ProjectileRotator != null)
+        {
+            var obj = Instantiate(ThisUnitData.ProjectileRotator);
+            obj.SetCenter(transform);
+        }
+
     }
 
     public void SetStats(StatsData stats)
     {
-        ThisUnitStats = stats;
+        ThisUnitStats.SetStatsData(stats);
         ThisUnitStats.SetHP(ThisUnitStats.HP > 0 ? ThisUnitStats.HP : 1);
     }
 
@@ -111,7 +120,7 @@ public class Unit : MonoBehaviour, IDamagable
         }           
     }
 
-    private Coroutine _routeCoroutineHandler;
+    
 
     private void ChangeDirection(Tile tile)
     {
@@ -237,5 +246,24 @@ public class Unit : MonoBehaviour, IDamagable
     {
         ThisUnitStats.ReceiveDamage(damage);
         Debug.Log($"{gameObject.tag} HP: {ThisUnitStats.HP}");
+        if(ThisUnitStats.HP <= 0)
+        {
+            Die();
+        }
     }
+
+    public void Die()
+    {
+        _routeCoroutineHandler = null;
+        StopAllCoroutines();
+        IsMoving = false;
+        CurrentTile?.ClearNeighbouresFromUnit(this);
+        CurrentTile?.DetachUnit();                      
+        _pool.Return(this);
+        OnUnitDie?.Invoke();
+        CurrentTile = null;
+        CurrentTarget = null;
+    }
+
+    public event Action OnUnitDie;
 }

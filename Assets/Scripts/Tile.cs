@@ -16,6 +16,7 @@ public class Tile : MonoBehaviour
     public Tile RightTile { get; private set; }
 
     private Unit _attachedUnit;
+    public Unit AttachedUnit => _attachedUnit;
     
     [SerializeField]
     private MeshRenderer _meshRenderer;
@@ -45,6 +46,34 @@ public class Tile : MonoBehaviour
     public void DetachUnit()
     {
         _attachedUnit = null;
+
+    }
+
+    public void ClearNeighbouresFromUnit(Unit unit)
+    {
+        if (UpperTile.AttachedUnit == unit)
+        {
+            UpperTile.DetachUnit();
+            return;
+        }
+
+        if (LeftTile.AttachedUnit == unit)
+        {
+            LeftTile.DetachUnit();
+            return;
+        }
+
+        if (LowerTile.AttachedUnit == unit)
+        {
+            LowerTile.DetachUnit();
+            return;
+        }
+
+        if (RightTile.AttachedUnit == unit)
+        {
+            RightTile.DetachUnit();
+            return;
+        }
     }
 
     public float MoveCost => _tileData.MoveCost;
