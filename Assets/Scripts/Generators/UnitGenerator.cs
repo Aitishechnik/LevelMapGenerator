@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class UnitGenerator : MonoBehaviour
 {
@@ -42,7 +41,7 @@ public class UnitGenerator : MonoBehaviour
                     } while (tile.IsOccupied);
 
                     yield return new WaitForSeconds(RESPAWN_TIME);
-                    var unit = SpawnUnit(_generateParams[_counter].Name, tile, _generateParams[_counter].IsControlable);
+                    SpawnUnit(_generateParams[_counter].Name, tile, _generateParams[_counter].IsControlable);
                 }
                 _counter++;
             }
